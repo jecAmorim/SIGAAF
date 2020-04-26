@@ -73,9 +73,9 @@ app.use(bodyParser.json())
       res.json(users);
     }); //Listar todos os usuarios
     
-    app.get('/users/:id', async (req, res) => {
+    app.get('/user/:id', async (req, res) => {
       const {id}=req.params;
-      const user = await User.findAll({
+      const user = await User.findOne({
         where: {
           id: id
         }
@@ -93,6 +93,9 @@ app.use(bodyParser.json())
         where: {
           id: id
         }
+      })
+      .then(()=>{
+        console.log('OK');
       })
       .catch(function(err){
         res.send(`Erro ${err}`);
@@ -119,7 +122,7 @@ app.use(bodyParser.json())
     }); //Editar senha de usuario
     
 
-    app.delete('/users/:id', async (req, res) => {
+    app.delete('/user/:id', async (req, res) => {
       const {id}=req.params;
       console.log(id);
       const result= await User.destroy({
@@ -257,9 +260,10 @@ app.use(bodyParser.json())
     res.json(albums);
   }); //Listar todos as albums
 
-  app.patch('/changealbumname/:id', async (req, res) => {
+  app.put('/changealbum/:id', async (req, res) => {
     const {album_titulo,album_descricao,album_data_aquisicao,album_estado_conservacao}=req.query;
     const {id}=req.params;
+    console.log(id);
     const result= await Album.update({
       album_titulo: album_titulo,
       album_descricao: album_descricao,
@@ -269,6 +273,9 @@ app.use(bodyParser.json())
       where: {
         id: id
       }
+    })
+    .then(function() {
+      res.send('success');
     })
     .catch(function(err){
       res.send(`Erro ${err}`);

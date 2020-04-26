@@ -13,6 +13,26 @@ body{
     -webkit-font-smooothing:antialised;
 }
 
+footer{
+    background: #12524B;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 74px;
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+
+    font-style: normal;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 35px;
+    
+}
+
 input,button,textarea{
     font: 400 18px Lato,sans-serif;
 }
