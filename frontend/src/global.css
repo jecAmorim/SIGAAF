@@ -11,6 +11,7 @@ body{
     font: 400 14px Lato,sans-serif;
     background: #F6F6F6;
     -webkit-font-smooothing:antialised;
+    display: flex;
 }
 
 footer{
@@ -73,25 +74,24 @@ form textarea{
 }
 
 .button{
-    width: 250px;
-    height: 43px;
-    background-color: #e02041;
+    width: 109.71px;
+    height: 40px;
+
     border:0; 
     color:#fff;
     font-weight: 700;
-    margin-top: 16px;
+    margin-top: 5px;
     display: inline-block;
     text-align: center;
     font-size: 18px;
-    line-height: 60px;
+    line-height: 20px;
     transition: filter 0.2s;
-
 
     /* Cor Principal */
 
     background: #00A859;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 5.85755px;
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
 }
 
 .button:hover{
