@@ -41,31 +41,68 @@ export default function Users(){
         <div className= 'dash'>
             <h1>Dados Pessoais</h1>
             <div className='register'>
-            <form onSubmit={handleRegister}>
-                        <input 
-                        placeholder='Nome do Usuario'
-                        value={name} 
-                        onChange={e => setName(e.target.value)}
-                        />
-                        <input 
-                        email='email' 
-                        placeholder='E-mail'
-                        value={email} 
-                        onChange={e => setEmail(e.target.value)}
-                        />
-                        <input 
-                        placeholder='Funcao'
-                        value={funcao} 
-                        onChange={e => setFuncao(e.target.value)}
-                        />
-                        <input 
-                            placeholder='Senha' 
-                            value={senha} 
-                            onChange={e => setSenha(e.target.value)}
-                        />
+            <form>
                         
-                        <button className='button' type='submit'>Cadastrar</button>
+                        
+                       
+                       
+                        
+                        
                     </form>
+                    <div>
+                        <form onSubmit={handleRegister}>
+                            <ul className="flex-outer">
+                                <li>
+                                <label for="name">Nome Completo: <span>*</span></label>
+                                <input 
+                                placeholder='Informe o nome completo'
+                                value={name} 
+                                onChange={e => setName(e.target.value)}
+                                />
+                                </li>
+                                <li>
+                                <label for="email">E-mail: <span>*</span></label>
+                                <input 
+                                email='email' 
+                                placeholder='Informe o e-mail'
+                                value={email} 
+                                onChange={e => setEmail(e.target.value)}
+                                />
+                                </li>
+                                <li>
+                                <label for="funcao">Função: <span>*</span></label>
+                                <input 
+                                placeholder='Informe a função'
+                                value={funcao} 
+                                onChange={e => setFuncao(e.target.value)}
+                                />
+                                </li>
+                                <li>
+                                <label for="phone">Senha: <span>*</span></label>
+                                <input 
+                                    placeholder='Informe a senha' 
+                                    value={senha} 
+                                    onChange={e => setSenha(e.target.value)}
+                                />
+                                </li>                               
+                                <li>
+                                    <p>Permissões</p>
+                                    <ul class="flex-inner">
+                                        <li>
+                                            
+                                        </li>
+                                        <li>
+                                            
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                 <button className='button' type='submit'>Salvar</button>
+                                 <button className='button cancel' type='button'>Cancelar</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
             </div>
         </div>
         <Footer></Footer>

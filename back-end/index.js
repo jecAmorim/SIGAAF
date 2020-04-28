@@ -73,13 +73,13 @@ app.use(bodyParser.json())
       res.json(users);
     }); //Listar todos os usuarios
     
-    app.get('/user/:id', async (req, res) => {
-      const {id}=req.params;
-      const user = await User.findOne({
+    app.get('/user', async (req, res) => {
+      const {id}=req.query;
+      const user = await User.findAll(id!=undefined?{
         where: {
           id: id
         }
-      })
+      }:{})
       .catch(function(err){
         res.send(`Erro: ${err}`)
       });
@@ -87,15 +87,12 @@ app.use(bodyParser.json())
     }); //Buscar usuario
 
     app.patch('/changemail/:id', async (req, res) => {
-      const {email}=req.query;
+      const {email}=req.body;
       const {id}=req.params;
       const result= await User.update({ user_email: email }, {
         where: {
           id: id
         }
-      })
-      .then(()=>{
-        console.log('OK');
       })
       .catch(function(err){
         res.send(`Erro ${err}`);
@@ -105,10 +102,7 @@ app.use(bodyParser.json())
 
     app.patch('/changepassword/:id', async (req, res) => {
       const {password,new_password}=req.body;
-      const {id}=req.params;
-      console.log(id);
-      console.log(password);
-      
+      const {id}=req.params;      
       const result=await User.update({ user_password: new_password }, {
         where: {
           id: id,
@@ -236,16 +230,19 @@ app.use(bodyParser.json())
     //----------------------------------------------------------------
     //Rotas de albums
     app.post('/registeralbum', async (req, res) => {
-      const {album_titulo,album_descricao,album_data_aquisicao,album_estado_conservacao,library_instance}=req.body; 
+      const {album_titulo,
+             album_descricao,
+             album_data_aquisicao,
+             album_estado_conservacao,
+             library_instance
+            }=req.body; 
       const album = await Album.create({
         album_titulo: album_titulo,
         album_descricao: album_descricao,
         album_data_aquisicao: album_data_aquisicao,
         album_estado_conservacao: album_estado_conservacao,
         libraryId: library_instance.id,
-      },{
-        include: [Library]
-     })
+      })
         .catch(function(err){
           console.log(err)
         });

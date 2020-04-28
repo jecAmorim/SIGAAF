@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    Album.associate = models => {
+    /*Album.associate = models => {
         Album.belongsTo(models.Library,{ foreignKey: 'libraryID', constraints: false});
-    };
+    };*/
 
     return Album;
   }

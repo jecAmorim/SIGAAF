@@ -21,7 +21,7 @@ export default function Dashboard(){
         <div className="menu">
         <Menu></Menu>
         <div class= 'dash'>
-            <h1>SIGAAF</h1>
+            <h1>SIAGAF</h1>
             <h2>Bem vindo, {localStorage.getItem('userName')}</h2>
             <img heigth='400' width='400' src={logoImg} alt="Logo Menu"/>
         </div>
