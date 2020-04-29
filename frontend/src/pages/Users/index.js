@@ -67,7 +67,6 @@ export default function Users(){
             className="search-text"
             value={nameField} 
             onChange={e => setNameField(e.target.value)}
-            onKeyPress={filtrarUsuarios}
         />
         <button onClick={filtrarUsuarios} >Pesquisar</button>
         <button onClick={limparCampo}>Limpar</button>
