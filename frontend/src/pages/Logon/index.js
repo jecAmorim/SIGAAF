@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import {Link,useHistory} from 'react-router-dom';
 import {FiLogIn,FiLock} from "react-icons/fi/";
+import Footer from '../../components/Footer';
 
 import api from '../../services/api';
 import '../Logon/styles.css';
@@ -29,19 +30,21 @@ export default function Logon(){
     return(
         <div className="logon-container">
             <section className="welcome">
-                <h1>Bem Vindo</h1>
-                <h2>    Para acessar o sistema
-                Faça login com sua informação pessoal.</h2>
+                <h1>Bem Vindo!</h1>
+                <h2>Para acessar o sistema<br></br>Faça login com sua informação pessoal.</h2>
             </section>
             <section className="form">
-            <img src={logoImg} alt="Logo"/>
+                <img class="logoImg"src={logoImg} alt="Logo"/>
                 <form onSubmit={handleLogon}>
-                    <h1>Login</h1>
-                    <FiLock size={16} color='#E02041'/>
-                    <h2>Usuario</h2>
+                <h1>
+                    <FiLock size={15} color='#999999'/>
+                    Login
+                </h1>
+                <hr size="2px" width="100%" color="#E5E5E5"></hr>
+                    <h2>Usuario: </h2>
                     <input 
                         type="text" 
-                        placeholder="Entre com seu usuário ou matrícula"
+                        placeholder="Entre com seu usuário"
                         value={name} 
                         onChange={e => setName(e.target.value)}
                     />
