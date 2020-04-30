@@ -8,30 +8,26 @@ import logoImg from '../../assets/logo.svg';
 
 
 export default function Logon(){
-    const [name,setName]=useState('');
-    const [password,setPassword]=useState('');
-    const history=useHistory();
+   const [name,setName]=useState('');
+   const [password,setPassword]=useState('');
+   const history=useHistory();
 
-    async function handleLogon(e){
-        e.preventDefault();
+   async function handleLogon(e){
+       e.preventDefault();
 
-        try{
-            const response=await api.post('logon',{name,password});
-            localStorage.setItem('userId',response.data.id);
-            localStorage.setItem('userName',response.data.name);
-            history.push('/dashboard');
-        }catch(err){
-            console.error(err);
-            alert('Falha no login ');
-        }
-    }
+       try{
+           const response=await api.post('logon',{name,password});
+           localStorage.setItem('userId',response.data.id);
+           localStorage.setItem('userName',response.data.name);
+           history.push('/dashboard');
+       }catch(err){
+           console.error(err);
+           alert('Falha no login ');
+       }
+   }
 
     return(
         <div className="logon-container">
-            <div className="header">
-                <hr size="8" color="#12524B" width="100%"/>
-                <hr size="8" color="#00A859" width="100%"/>
-            </div>
             <div className="content">
                 <section className="welcome">
                     <h1>Bem Vindo!</h1>
@@ -66,12 +62,6 @@ export default function Logon(){
                             Esqueceu ou deseja alterar sua senha?
                         </Link>
                     </form>
-                </section>
-            </div>
-            <div className="footer">
-                <section className="footer">
-                    <h1>Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte - IFRN | Mossoró - (84) 3422-2652 / 2667 | E-mail: cocsev.mo@ifrn.edu.br</h1>
-                    <h1>Copyright :copyright: 2020 - IFRN - srv-siagaf-prd.ifrn.edu.br - v1.0.01</h1>
                 </section>
             </div>
         </div>
