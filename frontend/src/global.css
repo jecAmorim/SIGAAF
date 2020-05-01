@@ -32,11 +32,11 @@ body{
 }
 
 input,button,textarea{
-    font: 400 18px Lato,sans-serif;
+   font: 400 18px Lato,sans-serif;
 }
 
 button{
-    cursor: pointer;
+   cursor: pointer;
 }
 
 form input{
@@ -60,14 +60,14 @@ form input{
 }
 
 form textarea{
-    width: 100%;
-    resize: vertical;
-    min-height: 140px;
-    color:#333;
-    border: 1px solid #dcdce6;
-    border-radius: 8px;
-    padding: 16px 24px;
-    line-height: 24px;
+   width: 100%;
+   resize: vertical;
+   min-height: 140px;
+   color:#333;
+   border: 1px solid #dcdce6;
+   border-radius: 8px;
+   padding: 16px 24px;
+   line-height: 24px;
 }
 
 .button{
@@ -93,14 +93,14 @@ form textarea{
 }
 
 .back-link{
-    display:flex;
-    align-items: center;
-    margin-top:40px;
-    color:#41414d;
-    font-size: 18px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.2s;
+   display:flex;
+   align-items: center;
+   margin-top:40px;
+   color:#41414d;
+   font-size: 18px;
+   text-decoration: none;
+   font-weight: 500;
+   transition: opacity 0.2s;
 }
 
 .back-link svg{

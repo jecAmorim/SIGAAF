@@ -8,23 +8,23 @@ import logoImg from '../../assets/logo.svg';
 
 
 export default function Logon(){
-    const [name,setName]=useState('');
-    const [password,setPassword]=useState('');
-    const history=useHistory();
+   const [name,setName]=useState('');
+   const [password,setPassword]=useState('');
+   const history=useHistory();
 
-    async function handleLogon(e){
-        e.preventDefault();
+   async function handleLogon(e){
+       e.preventDefault();
 
-        try{
-            const response=await api.post('logon',{name,password});
-            localStorage.setItem('userId',response.data.id);
-            localStorage.setItem('userName',response.data.name);
-            history.push('/dashboard');
-        }catch(err){
-            console.error(err);
-            alert('Falha no login ');
-        }
-    }
+       try{
+           const response=await api.post('logon',{name,password});
+           localStorage.setItem('userId',response.data.id);
+           localStorage.setItem('userName',response.data.name);
+           history.push('/dashboard');
+       }catch(err){
+           console.error(err);
+           alert('Falha no login ');
+       }
+   }
 
     return(
         <div className="logon-container">
@@ -66,7 +66,6 @@ export default function Logon(){
                     </form>
                 </section>
             </div>
-
         </div>
     );
 }

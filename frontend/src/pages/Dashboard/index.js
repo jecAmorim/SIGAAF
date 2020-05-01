@@ -25,7 +25,12 @@ export default function Dashboard(){
             <h2>Bem vindo, {localStorage.getItem('userName')}</h2>
             <img heigth='400' width='400' src={logoImg} alt="Logo Menu"/>
         </div>
-        <Footer></Footer>
+        <div className="footer">
+                <section className="footer">
+                    <h1>Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte - IFRN | Mossoró - (84) 3422-2652 / 2667 | E-mail: cocsev.mo@ifrn.edu.br</h1>
+                    <h1>Copyright :copyright: 2020 - IFRN - srv-siagaf-prd.ifrn.edu.br - v1.0.01</h1>
+                </section>
+            </div>
         </div>
     );
 }
