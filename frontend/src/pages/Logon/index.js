@@ -29,8 +29,6 @@ export default function Logon(){
     return(
         <div className="logon-container">
             <div className="header">
-                <hr size="8" color="#12524B" width="100%"/>
-                <hr size="8" color="#00A859" width="100%"/>
             </div>
             <div className="content">
                 <section className="welcome">
@@ -68,12 +66,7 @@ export default function Logon(){
                     </form>
                 </section>
             </div>
-            <div className="footer">
-                <section className="footer">
-                    <h1>Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte - IFRN | Mossoró - (84) 3422-2652 / 2667 | E-mail: cocsev.mo@ifrn.edu.br</h1>
-                    <h1>Copyright :copyright: 2020 - IFRN - srv-siagaf-prd.ifrn.edu.br - v1.0.01</h1>
-                </section>
-            </div>
+
         </div>
     );
 }
