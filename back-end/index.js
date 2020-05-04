@@ -115,6 +115,19 @@ app.use(bodyParser.json())
       res.status(200).json({'rows_affected': result});
     }); //Editar senha de usuario
     
+    app.put('/user/:id', async (req, res) => {
+      const {user_name, user_email,user_function}=req.body; 
+      const {id}=req.params;      
+      const result=await User.update({ user_name: user_name,user_email: user_email,user_function: user_function }, {
+        where: {
+          id: id
+        }
+      })
+      .catch(function(err){
+        res.send(`Erro ${err}`);
+      });
+      res.status(200).json({'rows_affected': result});
+    }); //Editar senha de usuario
 
     app.delete('/user/:id', async (req, res) => {
       const {id}=req.params;

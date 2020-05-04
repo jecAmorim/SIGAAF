@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import Footer from '../../components/Footer';
 import Menu from '../../components/Menu';
 import {FiEdit,FiTrash,FiSearch,FiX} from "react-icons/fi/";
 
 //Material UI
-import AlertDialog from '../../components/AlertDialog';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -40,10 +41,16 @@ import './styles.css';
 
 export default function Users(){
     const [users,setUsers]=useState([]);
-    const [idUserSelected,setIdUserSelected]=useState(0);
     const [usersList,setUsersList]=useState([]);
+    const [idUserSelected,setIdUserSelected]=useState(0);
+    const [nameUserEdit,setNameUserEdit]=useState('');
+    const [emailUserEdit,setEmailUserEdit]=useState('');
+    const [functionUserEdit,setFunctionUserEdit]=useState('');
     const [nameField,setNameField]=useState('');
     const [open, setOpen] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+
+    const history = useHistory();
 
     useEffect(()=>{
         api.get('users')
@@ -53,7 +60,7 @@ export default function Users(){
         });
     },[]);
 
-    function abrirConfirmacao(id){
+    function abrirConfirmacaoDelete(id){
         setIdUserSelected(id);
         setOpen(true);
     }
@@ -68,11 +75,40 @@ export default function Users(){
             alert('Erro na deleção');
         });
        
-        handleClose();
+        handleCloseDelete();
     }
 
-    function handleClose(){
+    function handleCloseDelete(){
         setOpen(false);
+    }
+
+    function abrirModalEdit(id){
+        setIdUserSelected(id);
+        setNameUserEdit(usersList.find(x => x.id === id).user_name);
+        setEmailUserEdit(usersList.find(x => x.id === id).user_email);
+        setFunctionUserEdit(usersList.find(x => x.id === id).user_function);
+        setOpenEdit(true);
+    }
+    async function editUser(){
+       const userEdit={
+           user_name: nameUserEdit,
+           user_email: emailUserEdit,
+           user_function: functionUserEdit,
+       };
+        try{    
+            const response=await api.put(('user/'+idUserSelected),userEdit);
+            const userIndex= users.findIndex(x => x.id === idUserSelected);
+            users[userIndex]=userEdit;
+            const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
+            usersList[userListIndex]=userEdit;
+        }catch(err){
+            alert('Falha na edição, tente novamente');
+        }
+        handleCloseEdit();
+    }
+
+    function handleCloseEdit(){
+        setOpenEdit(false);
     }
 
     function filtrarUsuarios(){
@@ -124,12 +160,12 @@ export default function Users(){
                                 <td>{user.user_function}</td>
                                 <td>{user.user_status}</td>
                                 <td>
-                                <IconButton aria-label="edit">
+                                <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
                                         <Icon style={{ color: "black" }}>
                                             <Edit />
                                         </Icon>
                                     </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => abrirConfirmacao(user.id)}>
+                                    <IconButton aria-label="delete" onClick={() => abrirConfirmacaoDelete(user.id)}>
                                         <Icon  style={{ color: "gray" }}>
                                             <Delete />
                                         </Icon>
@@ -146,7 +182,7 @@ export default function Users(){
 
                 <Dialog
                         open={open}
-                        onClose={handleClose}
+                        onClose={handleCloseDelete}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
@@ -157,7 +193,7 @@ export default function Users(){
                         </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                        <Button onClick={handleClose} color="primary" autoFocus>
+                        <Button onClick={handleCloseDelete} color="primary" autoFocus>
                             Não
                         </Button>
                         <Button onClick={deleteUser} color="default" autoFocus>
@@ -166,6 +202,53 @@ export default function Users(){
                         </DialogActions>
                     </Dialog>
 
+                    <Dialog open={openEdit} onClose={handleCloseEdit} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Editar Usuario</DialogTitle>
+                        <DialogContent>
+                        <DialogContentText>
+                            To subscribe to this website, please enter your email address here. We will send updates
+                            occasionally.
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Nome"
+                            type="text"
+                            fullWidth
+                            value={nameUserEdit} 
+                            onChange={e => setNameUserEdit(e.target.value)}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="email"
+                            label="Nome"
+                            type="email"
+                            fullWidth
+                            value={emailUserEdit} 
+                            onChange={e => setEmailUserEdit(e.target.value)}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="function"
+                            label="Função"
+                            type="text"
+                            fullWidth
+                            value={functionUserEdit} 
+                            onChange={e => setFunctionUserEdit(e.target.value)}
+                        />
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleCloseEdit} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={editUser} color="primary">
+                            Editar
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
             </div>
             
 
