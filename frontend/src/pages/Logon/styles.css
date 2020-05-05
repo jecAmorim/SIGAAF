@@ -89,7 +89,8 @@
 }
 .logon-container .content section.form button {
     position: relative;
-    margin-top: 30px;
+    margin: 30px 0 0 0;
+    width: 100%;
 }
 
 .logon-container .content section.form button svg {
@@ -121,4 +122,45 @@
 
 .logon-container section.form form svg{
     margin-right: 5px;
+}
+
+.dialog{
+    background-color: rgba(240, 240, 240, 0.3);
+    width: 400px;
+}
+.dialog-title{
+    background-color: rgba(240, 240, 240, 0.5);
+    border: 4px solid #12524B;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+   
+    color: #12524B;
+}
+.dialog-title p{
+    font-weight: bold;
+} 
+
+.dialog-description{
+    
+    color: #292929;
+    font-weight: 300;
+    font-size: 16px;
+   
+}
+
+.MuiButton-label {
+    background-color: #12524B !important;
+    padding: 0px 20px;
+    margin: 0;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    font-size: 10px;
+    line-height: 32px;
+}
+.alert-icon{
+    margin-top: 4px;
+    float: left;
+    margin-right: 15px;
 }

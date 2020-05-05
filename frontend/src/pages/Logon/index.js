@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import {Link,useHistory} from 'react-router-dom';
-import {FiLogIn,FiLock} from "react-icons/fi/";
+import {FiLogIn,FiLock,FiAlertCircle} from "react-icons/fi/";
 
 //Material UI
 import Button from '@material-ui/core/Button';
@@ -83,16 +83,16 @@ export default function Logon(){
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
-                        <DialogTitle id="alert-dialog-title">{"Falha no Login"}</DialogTitle>
-                        <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                        Usuario ou senha incorretos.<br></br>
+                        <DialogTitle id="alert-dialog-title" className="dialog-title"><p><FiAlertCircle className="alert-icon" size={25} color='#12524B'/>{"Falha no Login"}</p></DialogTitle>
+                        <DialogContent className ="dialog">
+                        <DialogContentText id="alert-dialog-description" className="dialog-description">
+                        Usuario ou senha inválidos!<br></br>
                         Tente novamente.
-                        </DialogContentText>
+                        </DialogContentText>    
                         </DialogContent>
-                        <DialogActions>
-                        <Button onClick={handleClose} color="primary" autoFocus>
-                            OK
+                        <DialogActions className ="dialog">
+                        <Button onClick={handleClose} autoFocus>
+                           <h2>OK</h2>
                         </Button>
                         </DialogActions>
                     </Dialog>
