@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Link,useHistory} from 'react-router-dom';
 import Footer from '../../components/Footer';
 import Menu from '../../components/Menu';
@@ -7,14 +7,27 @@ import Menu from '../../components/Menu';
 import api from '../../services/api';
 import './styles.css';
 
-import logoImg from '../../assets/logomenu.svg';
 
 export default function Users(){
     const [name,setName]=useState([]);
     const [email,setEmail]=useState([]);
     const [funcao,setFuncao]=useState([]);
     const [senha,setSenha]=useState([]);
+    const [offices,setOffices]=useState([])
+    const [officeSelected,setOfficeSelected]=useState(0);
 
+    async function pegarCargos(){
+        await api.get('offices')
+        .then(response=>{
+            setOffices(response.data);
+            console.log(response.data);
+            setOfficeSelected(response.data[0].id);
+        });
+    }
+
+    useEffect(()=>{
+        pegarCargos();
+    },[]);
     const history = useHistory();
 
     async function handleRegister(e){
@@ -23,7 +36,7 @@ export default function Users(){
         const data={
             user_name: name,
             user_email: email,
-            user_function: funcao,
+            office_id: officeSelected,
             user_password: senha,
         }
         try{    
@@ -31,8 +44,13 @@ export default function Users(){
             alert(`Seu ID de acesso: ${response.data.id}`);
             history.push('/users');
         }catch(err){
-            alert('Falha no cadastro, tente novamente');
+            alert('Falha no cadastro, tente novamente'+err);
         }
+    }
+
+    function handleofficeSelected(id){
+        setOfficeSelected(id)
+        console.log(id);
     }
 
     return(
@@ -42,12 +60,6 @@ export default function Users(){
             <h1>Dados Pessoais</h1>
             <div className='register'>
             <form>
-                        
-                        
-                       
-                       
-                        
-                        
                     </form>
                     <div>
                         <form onSubmit={handleRegister}>
@@ -70,12 +82,10 @@ export default function Users(){
                                 />
                                 </li>
                                 <li>
-                                <label for="funcao">Função: <span>*</span></label>
-                                <input 
-                                placeholder='Informe a função'
-                                value={funcao} 
-                                onChange={e => setFuncao(e.target.value)}
-                                />
+                                <label for="funcao">Cargo: <span>*</span></label>
+                                <select  value={officeSelected} onChange={e =>handleofficeSelected(e.target.value)}>
+                                {offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))}
+                                </select>                            
                                 </li>
                                 <li>
                                 <label for="phone">Senha: <span>*</span></label>

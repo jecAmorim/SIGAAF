@@ -36,15 +36,17 @@ app.use(bodyParser.json())
         const {user_name,
                user_email,
                user_password,
-               office_instance}=req.body; 
+               office_id}=req.body; 
+               console.log(office_id);
+               console.log(req.body);
         const user = await User.create({
           user_name: user_name,
           user_email: user_email,
           user_password: user_password,
-          OfficeId: office_instance.id,
+          OfficeId: office_id,
         })
           .catch(function(err){
-            res.send(`Erro: ${err}`)
+            res.status(400).send(`Erro: ${err}`)
           });
         res.json(user);
     });//Criar usuario
@@ -250,14 +252,14 @@ app.use(bodyParser.json())
              album_descricao,
              album_data_aquisicao,
              album_estado_conservacao,
-             library_instance
+             library_id
             }=req.body; 
       const album = await Album.create({
         album_titulo: album_titulo,
         album_descricao: album_descricao,
         album_data_aquisicao: album_data_aquisicao,
         album_estado_conservacao: album_estado_conservacao,
-        LibraryId: library_instance.id,
+        LibraryId: library_id,
       })
         .catch(function(err){
           console.log(err)

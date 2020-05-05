@@ -3,7 +3,6 @@ import {Link,useHistory} from 'react-router-dom';
 import {FiLogIn,FiLock} from "react-icons/fi/";
 
 //Material UI
-import AlertDialog from '../../components/AlertDialog';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
