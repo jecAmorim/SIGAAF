@@ -1,5 +1,5 @@
 
-const models=require('../models');
+const models = require('../models');
 
 module.exports = (sequelize, DataTypes) => {
     const Album = sequelize.define('Album', {
@@ -7,18 +7,13 @@ module.exports = (sequelize, DataTypes) => {
       album_descricao: DataTypes.STRING,
       album_data_aquisicao: DataTypes.DATE,
       album_estado_conservacao: DataTypes.STRING,
-      libraryId: {
+      LibraryId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'libraries',
+          model: 'Library',
           key: 'id',
         }
       }
     });
-
-    /*Album.associate = models => {
-        Album.belongsTo(models.Library,{ foreignKey: 'libraryID', constraints: false});
-    };*/
-
     return Album;
   }

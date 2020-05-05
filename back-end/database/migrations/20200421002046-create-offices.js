@@ -1,11 +1,13 @@
+'use strict';
+
 module.exports = {
   up: (queryInterface, DataTypes) => {
     return queryInterface.createTable('Offices', {
         id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
       },
      
       office_name: {
@@ -21,23 +23,10 @@ module.exports = {
         type: DataTypes.DATE,
       },
     });
-    // Office hasOne Order
-    return queryInterface.addColumn(
-      'Users', // name of Target model
-      'OfficeId', // name of the key we're adding
-      {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Offices', // name of Source model
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
-      }
-    );
+    
   },
 
-  down: (queryInterface) => {
+  down: (queryInterface,Sequelize) => {
     return queryInterface.dropTable('Offices');
   }
 };

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       library_name: DataTypes.STRING,
     });
     Library.associate = models => {
-      Library.hasMany(models.Library);
+      Library.hasMany(models.Album);
     };
     return Library;
   }

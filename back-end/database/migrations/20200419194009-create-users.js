@@ -1,7 +1,9 @@
+'use strict';
+
 module.exports = {
   up: (queryInterface, DataTypes) => {
     return queryInterface.createTable('Users', {
-        id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -17,10 +19,6 @@ module.exports = {
         unique: true,
       },
       user_password: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-       user_function: {
         allowNull: false,
         type: DataTypes.STRING,
       },

@@ -8,9 +8,8 @@ module.exports = {
           primaryKey: true,
           allowNull: false,
           autoIncrement: true,
-          unique:true,
       },
-    
+  
       library_name: {
         allowNull: false,
         type: DataTypes.STRING,

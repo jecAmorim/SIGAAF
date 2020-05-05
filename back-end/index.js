@@ -33,12 +33,15 @@ app.use(bodyParser.json())
     //-------------------------------------------------------------------
     //Rotas de Usuarios 
     app.post('/register', async (req, res) => {
-        const {user_name, user_email, user_password,user_function}=req.body; 
+        const {user_name,
+               user_email,
+               user_password,
+               office_instance}=req.body; 
         const user = await User.create({
           user_name: user_name,
           user_email: user_email,
           user_password: user_password,
-          user_function: user_function
+          OfficeId: office_instance.id,
         })
           .catch(function(err){
             res.send(`Erro: ${err}`)
@@ -116,9 +119,9 @@ app.use(bodyParser.json())
     }); //Editar senha de usuario
     
     app.put('/user/:id', async (req, res) => {
-      const {user_name, user_email,user_function}=req.body; 
+      const {user_name, user_email}=req.body; 
       const {id}=req.params;      
-      const result=await User.update({ user_name: user_name,user_email: user_email,user_function: user_function }, {
+      const result=await User.update({ user_name: user_name,user_email: user_email}, {
         where: {
           id: id
         }
@@ -254,7 +257,7 @@ app.use(bodyParser.json())
         album_descricao: album_descricao,
         album_data_aquisicao: album_data_aquisicao,
         album_estado_conservacao: album_estado_conservacao,
-        libraryId: library_instance.id,
+        LibraryId: library_instance.id,
       })
         .catch(function(err){
           console.log(err)
