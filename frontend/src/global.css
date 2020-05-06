@@ -18,11 +18,11 @@ body{
 .side-nav{
     background-color: #12524B;
     padding: 0.3%;
-
+    overflow: auto;
     position: fixed;
     top:0;
+    left: 0;
     height: 100vh;
-    min-width: 5%;
     width: 6%;
 }
 
@@ -100,34 +100,22 @@ div.sidenav---navicon---3gCRo{
 }
 
 footer{
-    position: fixed;
-    left: 0px;
+    left: 5%;
     bottom: 0px;
     background: rgba(18, 82, 75,1);
     width: 100%;
     color: white;
-    padding: 20px 0px;
-
-    margin-top: 2.4em;
-    margin-bottom: 2.4m;
-    float: left;
-    clear: both;
+    padding: 1.5% 0px;
 }
 
 footer h1{
-    left: 40px;
-    font-size: 16px;
     font-weight: 300;
     text-align: center;
-}
-
-.footer h1{   
-    font-weight: 300;
-    font-size: 11px;
-    line-height: 20px;
-    text-align: center;
+    font-size: 85%;
+    line-height: 110%;
     color: #EEEEEE;
 }
+
 
 input,button,textarea,select{
    font: 400 18px Lato,sans-serif;
