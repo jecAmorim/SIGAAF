@@ -17,12 +17,16 @@ body{
 
 .side-nav{
     background-color: #12524B;
+
     padding: 0.3%;
     overflow: auto;
+
     position: fixed;
     top:0;
     left: 0;
     height: 100vh;
+
+    min-width: 5%;
     width: 6%;
 }
 
@@ -113,9 +117,7 @@ footer h1{
     text-align: center;
     font-size: 85%;
     line-height: 110%;
-    color: #EEEEEE;
 }
-
 
 input,button,textarea,select{
    font: 400 18px Lato,sans-serif;
