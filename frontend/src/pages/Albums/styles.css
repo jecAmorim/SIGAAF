@@ -29,11 +29,12 @@ table > thead{
     color: white;
     height: 30px;
 }
-.collumn-user  { width: 25%; }
-.collumn-function  { width: 15%; }
-.collumn-email  { width: 35%; }
-.collumn-function { width: 15%;}
+.collumn-titulo  { width: 25%; }
+.collumn-descricao  { width: 35%; }
+.collumn-aquisicao  { width: 15%; }
+.collumn-conservacao { width: 15%;}
 .collumn-actions  { width: 10%; }
+.collumn-body  { text-align: center;}
 
 .search-text{
     width: 779px;

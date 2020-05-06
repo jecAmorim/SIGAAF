@@ -21,54 +21,39 @@ import api from '../../services/api';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
-  
-  const columns = [
-    {
-      key: "user_name",
-      name: "Nome do Usuario",
-      width: 100
-    },
-    {
-      key: "user_function",
-      name: "Função",
-      width: 100
-    },
-    {
-        key: "user_email",
-        name: "E-mail"
-      }
-  ];
 
-export default function Users(){
-    const [users,setUsers]=useState([]);
-    const [usersList,setUsersList]=useState([]);
-    const [idUserSelected,setIdUserSelected]=useState(0);
-    const [nameUserEdit,setNameUserEdit]=useState('');
-    const [emailUserEdit,setEmailUserEdit]=useState('');
-    const [functionUserEdit,setFunctionUserEdit]=useState('');
-    const [nameField,setNameField]=useState('');
+
+export default function Albums(){
+    const [albums,setAlbums]=useState([]);
+    const [albumsList,setAlbumsList]=useState([]);
+    const [idAlbumSelected,setIdAlbumSelected]=useState(0);
+    const [tituloAlbumEdit,setTituloAlbumEdit]=useState('');
+    const [descricaoAlbumEdit,setDescricaoAlbumEdit]=useState('');
+    const [dataAquisicaoAlbumEdit,setDataAquisicaoAlbumEdit]=useState('');
+    const [estadoConservacaoAlbumEdit,setEstadoConservacaoAlbumEdit]=useState('');
+    const [tituloField,setTituloField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
 
     const history = useHistory();
 
     useEffect(()=>{
-        api.get('users')
+        api.get('albums')
         .then(response=>{
-            setUsers(response.data);
-            setUsersList(response.data)
+            setAlbums(response.data);
+            setAlbumsList(response.data)
         });
     },[]);
 
     function abrirConfirmacaoDelete(id){
-        setIdUserSelected(id);
+        setIdAlbumSelected(id);
         setOpen(true);
     }
-    function deleteUser(){
-        api.delete(('user/'+idUserSelected))
+    function deleteAlbum(){
+        api.delete(('album/'+idAlbumSelected))
         .then(response=>{
-            setUsers(users.filter((user) => (user.id!=idUserSelected?true:false)));
-            setUsersList(usersList.filter((user) => (user.id!=idUserSelected?true:false)));
+            setAlbums(albums.filter((album) => (album.id!=idAlbumSelected?true:false)));
+            setAlbumsList(albumsList.filter((album) => (albums.id!=idAlbumSelected?true:false)));
         })
         .catch((err) => {
             console.log(err);
@@ -83,24 +68,31 @@ export default function Users(){
     }
 
     function abrirModalEdit(id){
-        setIdUserSelected(id);
-        setNameUserEdit(usersList.find(x => x.id === id).user_name);
-        setEmailUserEdit(usersList.find(x => x.id === id).user_email);
-        setFunctionUserEdit(usersList.find(x => x.id === id).user_function);
+        //alert(dataAquisicaoAlbumEdit);
+        alert(new Date(albumsList.find(x => x.id === id).album_data_aquisicao).toLocaleDateString());
+
+        let date=(new Date(albumsList.find(x => x.id === id).album_data_aquisicao));
+        date=new Date(date.getDay+'-'+date.getMonth+'-'+date.getFullYear);
+        setIdAlbumSelected(id);
+        setTituloAlbumEdit(albumsList.find(x => x.id === id).album_titulo);
+        setDescricaoAlbumEdit(albumsList.find(x => x.id === id).album_descricao);
+        setDataAquisicaoAlbumEdit(date);
+        setEstadoConservacaoAlbumEdit(albumsList.find(x => x.id === id).album_estado_conservacao);
         setOpenEdit(true);
     }
-    async function editUser(){
-       const userEdit={
-           user_name: nameUserEdit,
-           user_email: emailUserEdit,
-           user_function: functionUserEdit,
+    async function editAlbum(){
+       const albumEdit={
+            album_titulo: tituloAlbumEdit,
+            album_descricao: descricaoAlbumEdit,
+            album_data_aquisicao: dataAquisicaoAlbumEdit,
+            album_estado_conservacao: estadoConservacaoAlbumEdit,
        };
         try{    
-            const response=await api.put(('user/'+idUserSelected),userEdit);
-            const userIndex= users.findIndex(x => x.id === idUserSelected);
-            users[userIndex]=userEdit;
-            const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
-            usersList[userListIndex]=userEdit;
+            const response=await api.put(('album/'+idAlbumSelected),albumEdit);
+            const albumIndex= albums.findIndex(x => x.id === idAlbumSelected);
+            albums[albumIndex]=albumEdit;
+            const albumListIndex= albumsList.findIndex(x => x.id === idAlbumSelected);
+            albumsList[albumListIndex]=albumEdit;
         }catch(err){
             alert('Falha na edição, tente novamente');
         }
@@ -111,15 +103,14 @@ export default function Users(){
         setOpenEdit(false);
     }
 
-    function filtrarUsuarios(){
-        console.log(nameField);
-        console.log(users.filter((user)=> user.user_name.includes(nameField, 0)));
-        setUsersList(users.filter((user)=> user.user_name.startsWith(nameField)));
-        console.log(usersList);
+    function filtrarAlbums(){
+        //name field?
+        setAlbumsList(albums.filter((album)=> album.album_titulo.startsWith(tituloField)));
     }
     function limparCampo(){
-        setUsersList([...users]);
-        setNameField('');
+        setAlbumsList([...albums]);
+        //aqui tb
+        setTituloField('');
     }
 
     return(
@@ -129,43 +120,42 @@ export default function Users(){
             </div>
             <div className= 'dash'>
                 <br></br>
-                <br></br>
-                
-
+                <br></br>                
                 <FiSearch size={16} />
                 <input 
                     type='text' 
                     className="search-text"
-                    value={nameField} 
-                    onChange={e => setNameField(e.target.value)}
+                    value={tituloField} 
+                    //aqui
+                    onChange={e => setTituloField(e.target.value)}
                 />
-                <button className='button' onClick={filtrarUsuarios} >Pesquisar</button>
+                <button className='button' onClick={filtrarAlbums} >Pesquisar</button>
                 <button className='button-cancel' onClick={limparCampo}>Limpar</button>
             
                 <table className='table'>
                     <thead>
                         <tr className='column-heading'>
-                            <th className='collumn-user'>Nome do Usuario</th>
-                            <th className='collum-email'>Email</th>
-                            <th className='collumn-function'>Função</th>
-                            <th className='collumn-status'>Status</th>
+                            <th className='collumn-titulo'>Titulo</th>
+                            <th className='collum-descricao'>Descricao</th>
+                            <th className='collumn-aquisicao'>Data de aquisição</th>
+                            <th className='collumn-conservacao'>Estado de Conservação</th>
                             <th className='collumn-actions'>Opções</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {usersList.map(user => (
-                            <tr key={user.id}>
-                                <td>{user.user_name}</td>
-                                <td>{user.user_email}</td>
-                                <td>{user.user_function}</td>
-                                <td>{user.user_status}</td>
+                    <tbody className='collumn-body'>
+                        {albumsList.map(album => (
+                            <tr key={album.id}>
+                                <td>{album.album_titulo}</td>
+                                <td>{album.album_descricao}</td>
+                                <td>{album.album_data_aquisicao}</td>
+                                <td>{album.album_estado_conservacao}</td>
                                 <td>
-                                <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
+                                <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(album.id)}>
                                         <Icon style={{ color: "black" }}>
                                             <Edit />
                                         </Icon>
                                     </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => abrirConfirmacaoDelete(user.id)}>
+                                    <IconButton aria-label="delete" onClick={() => abrirConfirmacaoDelete(album.id)}>
                                         <Icon  style={{ color: "gray" }}>
                                             <Delete />
                                         </Icon>
@@ -189,70 +179,77 @@ export default function Users(){
                         <DialogTitle id="alert-dialog-title">{"Confirmação"}</DialogTitle>
                         <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                        Tem certeza que deseja deletar o usuario?
+                        Tem certeza que deseja deletar o album?
                         </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleCloseDelete} color="primary" autoFocus>
                             Não
                         </Button>
-                        <Button onClick={deleteUser} color="default" autoFocus>
+                        <Button onClick={deleteAlbum} color="default" autoFocus>
                             Sim
                         </Button>
                         </DialogActions>
                     </Dialog>
 
                     <Dialog open={openEdit} onClose={handleCloseEdit} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title">Editar Usuario</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Editar Album</DialogTitle>
                         <DialogContent>
                         <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We will send updates
-                            occasionally.
+
                         </DialogContentText>
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="name"
-                            label="Nome"
+                            id="titulo"
+                            label="Titulo"
                             type="text"
                             fullWidth
-                            value={nameUserEdit} 
-                            onChange={e => setNameUserEdit(e.target.value)}
+                            value={tituloAlbumEdit} 
+                            onChange={e => setTituloAlbumEdit(e.target.value)}
                         />
                         <TextField
-                            autoFocus
                             margin="dense"
-                            id="email"
-                            label="Nome"
-                            type="email"
-                            fullWidth
-                            value={emailUserEdit} 
-                            onChange={e => setEmailUserEdit(e.target.value)}
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="function"
-                            label="Função"
+                            id="descricao"
+                            label="Descrição"
                             type="text"
                             fullWidth
-                            value={functionUserEdit} 
-                            onChange={e => setFunctionUserEdit(e.target.value)}
+                            value={descricaoAlbumEdit} 
+                            onChange={e => setDescricaoAlbumEdit(e.target.value)}
+                        />
+                        <TextField
+                            id="date"
+                            id="data_aquisicao"
+                            label={"Data de Aquisição"}
+                            type="date"
+                            defaultValue={
+                                dataAquisicaoAlbumEdit
+                            }
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                            onChange={e => setDataAquisicaoAlbumEdit(e.target.value)}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="estado_conservacao"
+                            label="Estado de Conservação"
+                            type="text"
+                            fullWidth
+                            value={estadoConservacaoAlbumEdit} 
+                            onChange={e => setEstadoConservacaoAlbumEdit(e.target.value)}
                         />
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleCloseEdit} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={editUser} color="primary">
+                        <Button onClick={editAlbum} color="primary">
                             Editar
                         </Button>
                         </DialogActions>
                     </Dialog>
             </div>
-            
-
-
             <Footer></Footer>
         </div>
     );
