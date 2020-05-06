@@ -170,9 +170,11 @@ app.use(bodyParser.json())
     res.json(offices);
   }); //Listar todos os cargos
 
-  app.patch('/changeofficename/:id', async (req, res) => {
-    const {office_name}=req.query;
+  app.patch('/office/:id', async (req, res) => {
+    const {office_name}=req.body;
     const {id}=req.params;
+    console.log(office_name);
+    console.log(id);
     const result= await Office.update({ office_name: office_name }, {
       where: {
         id: id
