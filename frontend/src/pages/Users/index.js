@@ -232,7 +232,6 @@ export default function Users(){
                             onChange={e => setNameUserEdit(e.target.value)}
                         />
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="email"
                             label="Nome"
@@ -242,7 +241,6 @@ export default function Users(){
                             onChange={e => setEmailUserEdit(e.target.value)}
                         />
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="function"
                             label="Função"

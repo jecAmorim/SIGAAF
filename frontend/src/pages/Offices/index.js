@@ -22,22 +22,6 @@ import api from '../../services/api';
 import './styles.css';
 
   
-  const columns = [
-    {
-      key: "user_name",
-      name: "Nome do Usuario",
-      width: 100
-    },
-    {
-      key: "user_function",
-      name: "Função",
-      width: 100
-    },
-    {
-        key: "user_email",
-        name: "E-mail"
-      }
-  ];
 
 export default function Offices(){
     const [offices,setOffices]=useState([]);
