@@ -30,15 +30,15 @@ export default function Footer({title,children}) {
             <div className="nav-body">
                 <SideNav.Nav>
                     <NavItem eventKey="inicio">
-                        <NavIcon className="icon">
-                            <FiHome size={40} color='#fff' margin="5px"/>
+                        <NavIcon>
+                            <FiHome className="icon" size={40} color='#fff' margin="5px"/>
                             <h2>{"Inicio"}</h2>
                         </NavIcon>
                     </NavItem>
-                    <br></br>
+
                     <NavItem eventKey="album-fotografias">
-                        <NavIcon className="icon">
-                            <FiBook  size={40} color='#fff' margin="5px"/>
+                        <NavIcon>
+                            <FiBook  className="icon album"  size={40} color='#fff' margin="8px"/>
                             <h2>{"Albúm"}<br></br>{"fotografias"}</h2>
                         </NavIcon>
                         <NavItem eventKey="charts/linechart">
@@ -52,50 +52,44 @@ export default function Footer({title,children}) {
                             </NavText>
                         </NavItem>
                     </NavItem>
-                    <br></br>
                     <NavItem eventKey="fotografias">
-                        <NavIcon className="icon">
-                            <FiImage  size={40} color='#fff' margin="5px"/>
+                        <NavIcon>
+                            <FiImage className="icon foto" size={40} color='#fff' margin="5px"/>
                             <h2>{"Fotografias"}</h2>
                         </NavIcon>
                     </NavItem>
-                    <br></br>
                     <NavItem eventKey="usuario"
                         onClick={() => {
                             history.push('/users');
                         }}
                     >
-                        <NavIcon className="icon">
-                            <FiUser size={40} color='#fff' margin="5px"/>
+                        <NavIcon>
+                            <FiUser  className="icon" size={40} color='#fff' margin="5px"/>
                             <h2>{"Usuarios"}</h2>
                         </NavIcon>
                     </NavItem>
-                    <br></br>
                     <NavItem eventKey="Relatorios">
-                    <NavIcon className="icon">
-                            <FiFileText size={40} color='#fff' margin="5px"/>
+                    <NavIcon >
+                            <FiFileText className="icon" size={40} color='#fff' margin="5px"/>
                             <h2>{"Relatorios"}</h2>
                         </NavIcon>
                     </NavItem>
-                    <br></br>
                     <NavItem eventKey="configuracoes">
-                        <NavIcon className="icon">
-                            <FiSettings size={40} color='#fff'/>
+                        <NavIcon>
+                            <FiSettings className="icon" size={40} color='#fff'/>
                             <h2>{"Configurações"}</h2>
                         </NavIcon>
                     </NavItem>
-                    <br></br>
                     <NavItem eventKey="sair">
-                        <NavIcon  className="icon">
-                            <FiLogOut  size={40} color='#fff'/>
+                        <NavIcon>
+                            <FiLogOut  className="icon" size={40} color='#fff'/>
                             <h2>{"Sair"}</h2>
                     </NavIcon>
                     </NavItem>
-                    <br></br>
                     <NavItem  eventKey="help">
                         <NavIcon> 
-                            <div className="icon-footer">
-                                <FiHelpCircle size={40} color='#fff'/>
+                            <div>
+                                <FiHelpCircle  className="icon" size={40} color='#fff'/>
                                 <h2>{"Ajuda"}</h2>
                             </div>
                         </NavIcon>
