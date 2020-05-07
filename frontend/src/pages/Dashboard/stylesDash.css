@@ -1,16 +1,49 @@
-.menu{
+.container{
     width: 100%;
-    max-width: 1120px;
     height: 100vh;
-    margin: 0 auto;
-    margin-top: 50px;
 
-    width: 969px;
-    height: 500px;
+    top: 0;
+    left: 0;
 
-    top: 195px;
+    margin: 0;
+    padding: 0;
 
     display:flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
 }
+.container .header{
+    position: fixed;
+    top: 0;
+    height: 90px;
+    background-color: white;
+}
+
+.container .title h2{
+    background-color: transparent;
+    font-size: 150%;
+    margin: 1% 12%;
+}
+
+.container .dash {
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    width: 80%;
+    margin:  0 12% 12% 12%;
+}
+.container .dash  h1{
+    border-radius: 8px 8px 0 0px;
+    padding: 1%;
+    width: 100%;
+    font-size: 130%;
+}
+.container .dash .content {
+    min-height: 400px;
+    height: auto;
+    justify-content: center;
+}
+.container .dash .content img{
+    height: 300px;
+}
+
+

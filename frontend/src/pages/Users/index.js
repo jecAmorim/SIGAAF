@@ -18,6 +18,7 @@ import Edit from '@material-ui/icons/Edit';
 
 
 import api from '../../services/api';
+import search from '../../assets/zoom.png'
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
@@ -123,26 +124,38 @@ export default function Users(){
     }
 
     return(
+        <div>
         <div className="container">
             <div className="menulateral">
                 <Menu></Menu>
             </div>
-            <div className= 'dash'>
-                <br></br>
-                <br></br>
-                
-
-                <FiSearch size={16} />
-                <input 
-                    type='text' 
-                    className="search-text"
-                    value={nameField} 
-                    onChange={e => setNameField(e.target.value)}
-                />
-                <button className='button' onClick={filtrarUsuarios} >Pesquisar</button>
-                <button className='button-cancel' onClick={limparCampo}>Limpar</button>
+            <div className="header">             
+                </div>
+                <div className="title">
+                    <h2>Listar Usuario</h2>
+                </div>
+                <div className="search">
+                    <input 
+                        type='text' 
+                        className="search-text"
+                        id="input-search"
+                        value={nameField} 
+                        placeholder="Informe o nome do usuário"
+                        onChange={e => setNameField(e.target.value)}
+                    />
+                    <button className='button' onClick={filtrarUsuarios}>
+                        <FiSearch size="14"></FiSearch>
+                        Pesquisar
+                    </button>
+                    <button className='button-cancel' onClick={limparCampo}>
+                        <FiSearch size="15"></FiSearch>
+                        Limpar
+                    </button>
             
-                <table className='table'>
+                </div>
+            <div>
+            <div className="dash-content">
+                <table className='dash'>
                     <thead>
                         <tr className='column-heading'>
                             <th className='collumn-user'>Nome do Usuario</th>
@@ -159,18 +172,17 @@ export default function Users(){
                                 <td>{user.user_email}</td>
                                 <td>{user.user_function}</td>
                                 <td>{user.user_status}</td>
-                                <td>
-                                <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
-                                        <Icon style={{ color: "black" }}>
+                                <td className="action">
+                                    <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
+                                        <Icon style={{ color: "#292929" }}>
                                             <Edit />
                                         </Icon>
                                     </IconButton>
                                     <IconButton aria-label="delete" onClick={() => abrirConfirmacaoDelete(user.id)}>
-                                        <Icon  style={{ color: "gray" }}>
+                                        <Icon  style={{ color: "#E02041" }}>
                                             <Delete />
                                         </Icon>
-                                    </IconButton>
-                                   
+                                    </IconButton> 
                                 </td>
                             </tr>
                         ))}
@@ -179,7 +191,7 @@ export default function Users(){
                     </tbody>
                     <tfoot></tfoot>
                 </table>
-
+            </div>
                 <Dialog
                         open={open}
                         onClose={handleCloseDelete}
@@ -248,10 +260,8 @@ export default function Users(){
                         </DialogActions>
                     </Dialog>
             </div>
-            
-
-
-            <Footer></Footer>
         </div>
+        <Footer></Footer>
+     </div>
     );
 }
