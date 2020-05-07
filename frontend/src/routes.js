@@ -7,6 +7,7 @@ import Users from './pages/Users';
 import Offices from './pages/Offices';
 import Albums from './pages/Albums';
 import RegisterUser from './pages/RegisterUser';
+import RegisterAlbum from './pages/RegisterAlbum';
 
 
 export default function Routes(){
@@ -19,6 +20,7 @@ export default function Routes(){
             <Route path='/offices' exact component={Offices}></Route>
             <Route path='/albums' exact component={Albums}></Route>
             <Route path='/registeruser' exact component={RegisterUser}></Route>
+            <Route path='/registeralbum' exact component={RegisterAlbum}></Route>
         </Switch>
         </BrowserRouter>
     )

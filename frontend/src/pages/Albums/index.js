@@ -16,7 +16,6 @@ import {IconButton,Icon,} from '@material-ui/core/';
 import Delete from '@material-ui/icons/Delete'; 
 import Edit from '@material-ui/icons/Edit'; 
 
-
 import api from '../../services/api';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
@@ -29,7 +28,7 @@ export default function Albums(){
     const [idAlbumSelected,setIdAlbumSelected]=useState(0);
     const [tituloAlbumEdit,setTituloAlbumEdit]=useState('');
     const [descricaoAlbumEdit,setDescricaoAlbumEdit]=useState('');
-    const [dataAquisicaoAlbumEdit,setDataAquisicaoAlbumEdit]=useState('');
+    const [dataAquisicaoAlbumEdit,setDataAquisicaoAlbumEdit]=useState(new Date('2014-08-18T21:11:54'));
     const [estadoConservacaoAlbumEdit,setEstadoConservacaoAlbumEdit]=useState('');
     const [tituloField,setTituloField]=useState('');
     const [open, setOpen] = useState(false);
@@ -53,7 +52,7 @@ export default function Albums(){
         api.delete(('album/'+idAlbumSelected))
         .then(response=>{
             setAlbums(albums.filter((album) => (album.id!=idAlbumSelected?true:false)));
-            setAlbumsList(albumsList.filter((album) => (albums.id!=idAlbumSelected?true:false)));
+            setAlbumsList(albumsList.filter((album) => (album.id!=idAlbumSelected?true:false)));
         })
         .catch((err) => {
             console.log(err);
@@ -70,14 +69,16 @@ export default function Albums(){
     function abrirModalEdit(id){
         //alert(dataAquisicaoAlbumEdit);
         alert(new Date(albumsList.find(x => x.id === id).album_data_aquisicao).toLocaleDateString());
-
+        console.log(JSON.stringify(albumsList))
         let date=(new Date(albumsList.find(x => x.id === id).album_data_aquisicao));
-        date=new Date(date.getDay+'-'+date.getMonth+'-'+date.getFullYear);
+        date=new Date(date.getFullYear()+'-'+date.getMonth()+'-'+date.getDay());
+        alert((typeof date)+' '+date+' '+albumsList.find(x => x.id === id).album_data_aquisicao);
         setIdAlbumSelected(id);
         setTituloAlbumEdit(albumsList.find(x => x.id === id).album_titulo);
         setDescricaoAlbumEdit(albumsList.find(x => x.id === id).album_descricao);
-        setDataAquisicaoAlbumEdit(date);
+        //setDataAquisicaoAlbumEdit(date);
         setEstadoConservacaoAlbumEdit(albumsList.find(x => x.id === id).album_estado_conservacao);
+        alert(dataAquisicaoAlbumEdit);
         setOpenEdit(true);
     }
     async function editAlbum(){
@@ -222,9 +223,7 @@ export default function Albums(){
                             id="data_aquisicao"
                             label={"Data de Aquisição"}
                             type="date"
-                            defaultValue={
-                                dataAquisicaoAlbumEdit
-                            }
+                            defaultValue={dataAquisicaoAlbumEdit}
                             InputLabelProps={{
                             shrink: true,
                             }}
