@@ -8,6 +8,7 @@ import Offices from './pages/Offices';
 import Albums from './pages/Albums';
 import RegisterUser from './pages/RegisterUser';
 import RegisterAlbum from './pages/RegisterAlbum';
+import RegisterOffice from './pages/RegisterOffice';
 
 
 export default function Routes(){
@@ -21,6 +22,7 @@ export default function Routes(){
             <Route path='/albums' exact component={Albums}></Route>
             <Route path='/registeruser' exact component={RegisterUser}></Route>
             <Route path='/registeralbum' exact component={RegisterAlbum}></Route>
+            <Route path='/registeroffice' exact component={RegisterOffice}></Route>
         </Switch>
         </BrowserRouter>
     )
