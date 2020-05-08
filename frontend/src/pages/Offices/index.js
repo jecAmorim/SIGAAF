@@ -28,9 +28,11 @@ export default function Offices(){
     const [officesList,setOfficesList]=useState([]);
     const [idOfficeSelected,setIdOfficeSelected]=useState(0);
     const [nameOfficeEdit,setNameOfficeEdit]=useState('');
+    const [nameOfficeSave,setNameOfficeSave]=useState('');
     const [nameField,setNameField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [openSave, setOpenSave] = useState(false);
 
     const history = useHistory();
 
@@ -69,6 +71,9 @@ export default function Offices(){
         setNameOfficeEdit(officesList.find(x => x.id === id).office_name);
         setOpenEdit(true);
     }
+    function abrirModalSave(){
+        setOpenSave(true);
+    }
     async function editOffice(){
         console.log(nameOfficeEdit);
        const officeEdit={
@@ -86,7 +91,23 @@ export default function Offices(){
         }
         handleCloseEdit();
     }
+    async function saveOffice(){
+       const officeEdit={
+            office_name: nameOfficeSave,
+       };
+        try{    
+            const response=await api.post('registeroffice/',officeEdit);
+           setOffices([...officesList,response.data]);
+           setOfficesList([...officesList,response.data]);
+        }catch(err){
+            alert('Falha no cadastro, tente novamente'+err);
+        }
+        handleCloseSave();
+    }
 
+    function handleCloseSave(){
+        setOpenSave(false);
+    }
     function handleCloseEdit(){
         setOpenEdit(false);
     }
@@ -121,7 +142,7 @@ export default function Offices(){
                 />
                 <button className='button' onClick={filtrarOffices} >Pesquisar</button>
                 <button className='button-cancel' onClick={limparCampo}>Limpar</button>
-            
+
                 <table className='table'>
                     <thead>
                         <tr className='column-heading'> 
@@ -155,7 +176,7 @@ export default function Offices(){
                     </tbody>
                     <tfoot></tfoot>
                 </table>
-
+                <button className='button save' onClick={abrirModalSave}>Cadastrar</button>
                 <Dialog
                         open={open}
                         onClose={handleCloseDelete}
@@ -178,12 +199,39 @@ export default function Offices(){
                         </DialogActions>
                     </Dialog>
 
+                    <Dialog open={openSave} onClose={handleCloseEdit} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Cadastrar Cargo</DialogTitle>
+                        <DialogContent>
+                        <DialogContentText>
+                         
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Nome do cargo"
+                            type="text"
+                            fullWidth
+                            value={nameOfficeSave} 
+                            onChange={e => setNameOfficeSave(e.target.value)}
+                        />
+                        
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleCloseSave} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={saveOffice} color="primary">
+                            Cadastrar
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+
                     <Dialog open={openEdit} onClose={handleCloseEdit} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Editar Cargo</DialogTitle>
                         <DialogContent>
                         <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We will send updates
-                            occasionally.
+                         
                         </DialogContentText>
                         <TextField
                             autoFocus
