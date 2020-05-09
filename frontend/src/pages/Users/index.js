@@ -130,29 +130,28 @@ export default function Users(){
                 <Menu></Menu>
             </div>
             <div className="header">             
-                </div>
-                <div className="title">
-                    <h2>Listar Usuario</h2>
-                </div>
-                <div className="search">
-                    <input 
-                        type='text' 
-                        className="search-text"
-                        id="input-search"
-                        value={nameField} 
-                        placeholder="Informe o nome do usuário"
-                        onChange={e => setNameField(e.target.value)}
-                    />
-                    <button className='button' onClick={filtrarUsuarios}>
-                        <FiSearch size="14"></FiSearch>
-                        Pesquisar
-                    </button>
-                    <button className='button-cancel' onClick={limparCampo}>
-                        <FiSearch size="15"></FiSearch>
-                        Limpar
-                    </button>
-            
-                </div>
+            </div>
+            <div className="title">
+                <h2>Listar Usuario</h2>
+            </div>
+            <div className="search">
+                <input 
+                    type='text' 
+                    className="search-text"
+                    id="input-search"
+                    value={nameField} 
+                    placeholder="Informe o nome do usuário"
+                    onChange={e => setNameField(e.target.value)}
+                />
+                <button className='button' onClick={filtrarUsuarios}>
+                    <FiSearch size="14"></FiSearch>
+                    Pesquisar
+                </button>
+                <button className='button-cancel' onClick={limparCampo}>
+                    <FiX size="14"></FiX>
+                    Limpar
+                </button>
+            </div>
             <div>
             <div className="dash-content">
                 <table className='dash'>
@@ -189,7 +188,6 @@ export default function Users(){
                         <tr>
                         </tr>
                     </tbody>
-                    <tfoot></tfoot>
                 </table>
             </div>
                 <Dialog

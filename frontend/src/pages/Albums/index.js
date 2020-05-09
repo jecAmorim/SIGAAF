@@ -115,139 +115,148 @@ export default function Albums(){
     }
 
     return(
-        <div className="container">
-            <div className="menulateral">
-                <Menu></Menu>
-            </div>
-            <div className= 'dash'>
-                <br></br>
-                <br></br>                
-                <FiSearch size={16} />
-                <input 
-                    type='text' 
-                    className="search-text"
-                    value={tituloField} 
-                    //aqui
-                    onChange={e => setTituloField(e.target.value)}
-                />
-                <button className='button' onClick={filtrarAlbums} >Pesquisar</button>
-                <button className='button-cancel' onClick={limparCampo}>Limpar</button>
-            
-                <table className='table'>
-                    <thead>
-                        <tr className='column-heading'>
-                            <th className='collumn-titulo'>Titulo</th>
-                            <th className='collum-descricao'>Descricao</th>
-                            <th className='collumn-aquisicao'>Data de aquisição</th>
-                            <th className='collumn-conservacao'>Estado de Conservação</th>
-                            <th className='collumn-actions'>Opções</th>
-                        </tr>
-                    </thead>
-                    <tbody className='collumn-body'>
-                        {albumsList.map(album => (
-                            <tr key={album.id}>
-                                <td>{album.album_titulo}</td>
-                                <td>{album.album_descricao}</td>
-                                <td>{album.album_data_aquisicao}</td>
-                                <td>{album.album_estado_conservacao}</td>
-                                <td>
-                                <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(album.id)}>
-                                        <Icon style={{ color: "black" }}>
-                                            <Edit />
-                                        </Icon>
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => abrirConfirmacaoDelete(album.id)}>
-                                        <Icon  style={{ color: "gray" }}>
-                                            <Delete />
-                                        </Icon>
-                                    </IconButton>
-                                   
-                                </td>
-                            </tr>
-                        ))}
-                        <tr>
-                        </tr>
-                    </tbody>
-                    <tfoot></tfoot>
-                </table>
+        <div>
+            <div className="container">
+                <div className="menulateral">
+                    <Menu></Menu>
+                </div>
+                <div className="header"> 
+                </div>
+                <div className="title">
+                    <h2>Listar Albuns</h2>
+                </div>
+                <div className="search">
+                    <input 
+                        type='text' 
+                        className="search-text"
+                        id="input-search"
+                        value={tituloField} 
+                        placeholder="Informe o nome do album"
+                        onChange={e => setTituloField(e.target.value)}
+                    />
+                    <button className='button button-search' onClick={filtrarAlbums}>
+                        <FiSearch size="14"></FiSearch>
+                        Pesquisar
+                    </button>
+                    <button className='button-cancel button-clear' onClick={limparCampo}>
+                        <FiX size="14"></FiX>
+                        Limpar
+                    </button>        
+                </div>
+                <div>
+                    <div className="dash-content">         
+                        <table className='dash'>
+                            <thead>
+                                <tr className='column-heading'>
+                                    <th className='collumn-titulo'>Titulo</th>
+                                    <th className='collum-descricao'>Descricao</th>
+                                    <th className='collumn-aquisicao'>Data de aquisição</th>
+                                    <th className='collumn-conservacao'>Estado de Conservação</th>
+                                    <th className='collumn-actions'>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody className='collumn-body'>
+                                {albumsList.map(album => (
+                                    <tr key={album.id}>
+                                        <td>{album.album_titulo}</td>
+                                        <td>{album.album_descricao}</td>
+                                        <td>{album.album_data_aquisicao}</td>
+                                        <td>{album.album_estado_conservacao}</td>
+                                        <td className="action">
+                                            <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(album.id)}>
+                                                <Icon style={{ color: "black" }}>
+                                                    <Edit />
+                                                </Icon>
+                                            </IconButton>
+                                            <IconButton aria-label="delete" onClick={() => abrirConfirmacaoDelete(album.id)}>
+                                                <Icon  style={{ color: "#e02041" }}>
+                                                    <Delete />
+                                                </Icon>
+                                            </IconButton>     
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
-                <Dialog
-                        open={open}
-                        onClose={handleCloseDelete}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">{"Confirmação"}</DialogTitle>
-                        <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                        Tem certeza que deseja deletar o album?
-                        </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                        <Button onClick={handleCloseDelete} color="primary" autoFocus>
-                            Não
-                        </Button>
-                        <Button onClick={deleteAlbum} color="default" autoFocus>
-                            Sim
-                        </Button>
-                        </DialogActions>
-                    </Dialog>
+                        <Dialog
+                                open={open}
+                                onClose={handleCloseDelete}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">{"Confirmação"}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                Tem certeza que deseja deletar o album?
+                                </DialogContentText>
+                                </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseDelete} color="primary" autoFocus>
+                                    Não
+                                </Button>
+                                <Button onClick={deleteAlbum} color="default" autoFocus>
+                                    Sim
+                                </Button>
+                                </DialogActions>
+                        </Dialog>
+                        <Dialog open={openEdit} onClose={handleCloseEdit} aria-labelledby="form-dialog-title">
+                                <DialogTitle id="form-dialog-title">Editar Album</DialogTitle>
+                                <DialogContent>
+                                <DialogContentText>
 
-                    <Dialog open={openEdit} onClose={handleCloseEdit} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title">Editar Album</DialogTitle>
-                        <DialogContent>
-                        <DialogContentText>
-
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="titulo"
-                            label="Titulo"
-                            type="text"
-                            fullWidth
-                            value={tituloAlbumEdit} 
-                            onChange={e => setTituloAlbumEdit(e.target.value)}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="descricao"
-                            label="Descrição"
-                            type="text"
-                            fullWidth
-                            value={descricaoAlbumEdit} 
-                            onChange={e => setDescricaoAlbumEdit(e.target.value)}
-                        />
-                        <TextField
-                            id="date"
-                            id="data_aquisicao"
-                            label={"Data de Aquisição"}
-                            type="date"
-                            defaultValue={dataAquisicaoAlbumEdit}
-                            InputLabelProps={{
-                            shrink: true,
-                            }}
-                            onChange={e => setDataAquisicaoAlbumEdit(e.target.value)}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="estado_conservacao"
-                            label="Estado de Conservação"
-                            type="text"
-                            fullWidth
-                            value={estadoConservacaoAlbumEdit} 
-                            onChange={e => setEstadoConservacaoAlbumEdit(e.target.value)}
-                        />
-                        </DialogContent>
-                        <DialogActions>
-                        <Button onClick={handleCloseEdit} color="primary">
-                            Cancel
-                        </Button>
-                        <Button onClick={editAlbum} color="primary">
-                            Editar
-                        </Button>
-                        </DialogActions>
-                    </Dialog>
+                                </DialogContentText>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="titulo"
+                                    label="Titulo"
+                                    type="text"
+                                    fullWidth
+                                    value={tituloAlbumEdit} 
+                                    onChange={e => setTituloAlbumEdit(e.target.value)}
+                                />
+                                <TextField
+                                    margin="dense"
+                                    id="descricao"
+                                    label="Descrição"
+                                    type="text"
+                                    fullWidth
+                                    value={descricaoAlbumEdit} 
+                                    onChange={e => setDescricaoAlbumEdit(e.target.value)}
+                                />
+                                <TextField
+                                    id="date"
+                                    id="data_aquisicao"
+                                    label={"Data de Aquisição"}
+                                    type="date"
+                                    defaultValue={dataAquisicaoAlbumEdit}
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                    onChange={e => setDataAquisicaoAlbumEdit(e.target.value)}
+                                />
+                                <TextField
+                                    margin="dense"
+                                    id="estado_conservacao"
+                                    label="Estado de Conservação"
+                                    type="text"
+                                    fullWidth
+                                    value={estadoConservacaoAlbumEdit} 
+                                    onChange={e => setEstadoConservacaoAlbumEdit(e.target.value)}
+                                />
+                                </DialogContent>
+                                <DialogActions>
+                                <Button onClick={handleCloseEdit} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={editAlbum} color="primary">
+                                    Editar
+                                </Button>
+                                </DialogActions>
+                            </Dialog>
+                    </div>
+                </div>
             </div>
             <Footer></Footer>
         </div>
