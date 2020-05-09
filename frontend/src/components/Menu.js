@@ -36,7 +36,12 @@ export default function Footer({title,children}) {
                         </NavIcon>
                     </NavItem>
 
-                    <NavItem eventKey="album-fotografias">
+                    <NavItem 
+                    eventKey="album-fotografias"
+                    onClick={() => {
+                        history.push('/albums');
+                    }}
+                    >
                         <NavIcon>
                             <FiBook  className="icon album"  size={40} color='#fff' margin="8px"/>
                             <h2>{"Albúm"}<br></br>{"fotografias"}</h2>

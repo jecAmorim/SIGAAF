@@ -26,8 +26,9 @@ export default function Logon(){
        e.preventDefault();
        try{
            const response=await api.post('logon',{name,password});
+           console.log(response.data);
            localStorage.setItem('userId',response.data.id);
-           localStorage.setItem('userName',response.data.name);
+           localStorage.setItem('userName',response.data.user_name);
            history.push('/dashboard');
   
        }catch(err){

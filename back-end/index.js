@@ -64,7 +64,7 @@ app.use(bodyParser.json())
         res.status(400).send(`Erro: ${err}`)
       });
       if(user.length > 0){
-        res.json(user);
+        res.json(user[0]);
       }else{
         res.status(400).send();
       }
