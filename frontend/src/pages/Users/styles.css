@@ -50,7 +50,7 @@
 .container .search .button{
     padding: 2px 2px;
     height: 33px;
-    width: 100px;
+    width: 115px !important;
 }
 .container .search .button svg{
     margin: 0 5px;
@@ -59,7 +59,7 @@
     padding: 2px 2px;
     margin-left: 0;
     height: 33px;
-    width: 100px;
+    width: 115px !important;
 }
 .container .search .button-cancel svg{
     margin: 0 5px;
@@ -85,20 +85,23 @@ table {
     line-height: 14px;
 }
 
-.collumn-user, .collumn-email { 
+.collumn-user{ 
     padding-left: 10px;
-    width: 30%; 
+    width: auto; 
+}
+.collumn-email {
+ width: 55%;
 }
 .collumn-function, .collumn-status{
     padding-left: 10px;
-    width: auto;
+    width: 15%;
 }
 .collumn-actions  { 
     padding-left: 10px;
     width: auto; 
 }
 tbody{
-    padding: 20px;
+    padding: 10px;
 }
 
 tbody td{
