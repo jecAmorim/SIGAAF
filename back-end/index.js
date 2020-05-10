@@ -269,6 +269,31 @@ app.use(bodyParser.json())
       res.json(album);
   });//Criar album
 
+  app.put('/album/:id', async (req, res) => {
+    const {album_titulo,
+           album_descricao,
+           album_data_aquisicao,
+           album_estado_conservacao,
+           library_id
+          }=req.body; 
+      const {id}=req.params;
+      const result = await Album.update({
+        album_titulo: album_titulo,
+        album_descricao: album_descricao,
+        album_data_aquisicao: album_data_aquisicao,
+        album_estado_conservacao: album_estado_conservacao,
+        LibraryId: library_id,
+      }, {
+        where: {
+          id: id
+        }
+      })
+      .catch(function(err){
+        res.send(`Erro ${err}`);
+      });
+      res.status(200).json({'rows_affected': result});
+});//Criar album
+
   app.get('/albums', async (req, res) => {
     const albums = await Album.findAll()
     .catch(function(err){
