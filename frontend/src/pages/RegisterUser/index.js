@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Link,useHistory} from 'react-router-dom';
+import Select, { components } from 'react-select';
 import Footer from '../../components/Footer';
 import Menu from '../../components/Menu';
 
@@ -83,8 +84,10 @@ export default function Users(){
                                 </li>
                                 <li>
                                 <label for="funcao">Cargo: <span>*</span></label>
-                                <select  value={officeSelected} onChange={e =>handleofficeSelected(e.target.value)}>
-                                {offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))}
+                                <select defaultValue={'#'} value={officeSelected} onChange={e =>handleofficeSelected(e.target.value)}>                             
+                                {//option value={'#'} disabled="disabled" selected="selected" >Selecione um Cargo</option>  
+                                }{offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))
+                                }
                                 </select>                            
                                 </li>
                                 <li>

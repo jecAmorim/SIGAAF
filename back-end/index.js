@@ -1,7 +1,7 @@
 var bodyParser = require('body-parser');
 const express = require('express');
 const cors=require('cors');
-const { User,Office, Library, Album} = require('./app/models');
+const { User,Office, Library, Album, Status} = require('./app/models');
 
 const app = express();
 
@@ -44,6 +44,7 @@ app.use(bodyParser.json())
           user_email: user_email,
           user_password: user_password,
           OfficeId: office_id,
+          StatusId: 2
         })
           .catch(function(err){
             res.status(400).send(`Erro: ${err}`)
@@ -196,7 +197,59 @@ app.use(bodyParser.json())
       res.send(`Erro ${err}`);
     });
     res.status(200).json({'rows_affected': result});
-  }); //Deletar usuario
+  }); //Deletar cargo
+
+  //Rotas Status
+  //----------------------------------------------------------------
+    //Rotas de Status
+    app.post('/registerstatus', async (req, res) => {
+      const {status_name}=req.body; 
+
+      const status = await Status.create({
+        status_name: status_name
+      })
+        .catch(function(err){
+          console.log(err)
+        });
+      res.json(status);
+  });//Criar status
+
+  app.get('/status', async (req, res) => {
+    const status2 = await Status.findAll()
+    .catch(function(err){
+      res.send(`Erro: ${err}`)
+    });
+    res.json(status2);
+  }); //Listar todos os status
+
+
+  app.patch('/status/:id', async (req, res) => {
+    const {status_name}=req.body;
+    const {id}=req.params;
+    console.log(status_name);
+    console.log(id);
+    const result= await Status.update({ status_name: status_name }, {
+      where: {
+        id: id
+      }
+    })
+    .catch(function(err){
+      res.send(`Erro ${err}`);
+    });
+    res.status(200).json({'rows_affected': result});
+  }); //Editar nome de status
+
+  app.delete('/status /:id', async (req, res) => {
+    const {id}=req.params;
+    const result= await Status.destroy({
+      where: {
+        id: id
+      }
+    }).catch(function(err){
+      res.send(`Erro ${err}`);
+    });
+    res.status(200).json({'rows_affected': result});
+  }); //Deletar status
 
   //----------------------------------------------------------------
     //Rotas de bibliotecas
