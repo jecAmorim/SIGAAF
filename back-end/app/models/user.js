@@ -15,5 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     });
+    /*User.associate = models => {
+      User.hasOne(models.Office, {  foreignKey: {
+        name: 'OfficeID',
+        allowNull: false
+      }, constraints: false })
+    };*/
     return User;
   }

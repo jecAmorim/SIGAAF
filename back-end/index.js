@@ -58,12 +58,24 @@ app.use(bodyParser.json())
         where: {
           user_name: name,
           user_password:password
-        }
+        },
+        //include: [Office]
       }) 
       .catch(function(err){
         res.status(400).send(`Erro: ${err}`)
       });
       if(user.length > 0){
+        //Se for retornado um usuario, buscar o cargo
+        const office = await Office.findOne({
+          where: {
+            id: user[0].OfficeId
+          }
+        }) 
+        .catch(function(err){
+          res.status(400).send(`Erro: ${err}`)
+        });
+        console.log(office.dataValues);
+        user[0].dataValues.office=office.dataValues;
         res.json(user[0]);
       }else{
         res.status(400).send();
@@ -75,6 +87,22 @@ app.use(bodyParser.json())
       .catch(function(err){
         res.send(`Erro: ${err}`)
       });
+      let i =0;
+      users.forEach(async(user) => {
+        //Se for retornado um usuario, buscar o cargo
+        const office = await Office.findOne({
+          where: {
+            id: users.OfficeId
+          }
+        }) 
+        .catch(function(err){
+          res.status(400).send(`Erro: ${err}`)
+        });
+        console.log(office.dataValues);
+        users[i].dataValues.office=office.dataValues;
+        i++;
+      });
+  
       res.json(users);
     }); //Listar todos os usuarios
     
@@ -121,9 +149,9 @@ app.use(bodyParser.json())
     }); //Editar senha de usuario
     
     app.put('/user/:id', async (req, res) => {
-      const {user_name, user_email}=req.body; 
+      const {user_name, user_email, OfficeId}=req.body; 
       const {id}=req.params;      
-      const result=await User.update({ user_name: user_name,user_email: user_email}, {
+      const result=await User.update({ user_name: user_name,user_email: user_email,OfficeId : OfficeId}, {
         where: {
           id: id
         }

@@ -23,8 +23,8 @@ export default function Footer({title,children}) {
             </div>
             <div eventKey="user" className="navItem-perfile">
                 <FaUserCircle className="navItem-perfile icon" size={38} color='#fff'/>
-                <h2>{"Administrador"}</h2>
-                <h3>{"admin@siagaf.com"}</h3>
+                <h2>{localStorage.getItem('userOfficeName')}</h2>
+                <h3>{localStorage.getItem('userMail')}</h3>
                 <hr size="1" width="95%"></hr>                
             </div>        
             <div className="nav-body">

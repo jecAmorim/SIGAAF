@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import Footer from '../../components/Footer';
 import Menu from '../../components/Menu';
-import {FiEdit,FiTrash,FiSearch,FiX} from "react-icons/fi/";
+import {FiSearch,FiX} from "react-icons/fi/";
 
 //Material UI
 import Button from '@material-ui/core/Button';
@@ -17,10 +17,9 @@ import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit'; 
 
 import api from '../../services/api';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
-
+import logoImg from '../../assets/imageAlbum.svg';
 
 export default function Albums(){
     const [albums,setAlbums]=useState([]);
@@ -33,8 +32,6 @@ export default function Albums(){
     const [tituloField,setTituloField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-
-    const history = useHistory();
 
     useEffect(()=>{
         api.get('albums')
@@ -97,6 +94,8 @@ export default function Albums(){
     function handleCloseEdit(){
         setOpenEdit(false);
     }
+    
+
 
     function filtrarAlbums(){
         //name field?
@@ -142,6 +141,7 @@ export default function Albums(){
                         <table className='dash'>
                             <thead>
                                 <tr className='column-heading'>
+                                    <th className='collumn-titulo'>Imagem</th>
                                     <th className='collumn-titulo'>Titulo</th>
                                     <th className='collum-descricao'>Descricao</th>
                                     <th className='collumn-aquisicao'>Data de aquisição</th>
@@ -152,6 +152,7 @@ export default function Albums(){
                             <tbody className='collumn-body'>
                                 {albumsList.map(album => (
                                     <tr key={album.id}>
+                                        <td><img src={logoImg} alt=""/></td>
                                         <td>{album.album_titulo}</td>
                                         <td>{album.album_descricao}</td>
                                         <td>{album.album_data_aquisicao}</td>
@@ -220,7 +221,6 @@ export default function Albums(){
                                     onChange={e => setDescricaoAlbumEdit(e.target.value)}
                                 />
                                 <TextField
-                                    id="date"
                                     id="data_aquisicao"
                                     label={"Data de Aquisição"}
                                     type="date"

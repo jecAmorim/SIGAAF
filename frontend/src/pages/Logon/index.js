@@ -29,6 +29,8 @@ export default function Logon(){
            console.log(response.data);
            localStorage.setItem('userId',response.data.id);
            localStorage.setItem('userName',response.data.user_name);
+           localStorage.setItem('userMail',response.data.user_email);
+           localStorage.setItem('userOfficeName',response.data.office.office_name);
            history.push('/dashboard');
   
        }catch(err){

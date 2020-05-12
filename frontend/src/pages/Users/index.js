@@ -12,6 +12,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
 import {IconButton,Icon,} from '@material-ui/core/';
 import Delete from '@material-ui/icons/Delete'; 
 import Edit from '@material-ui/icons/Edit'; 
@@ -50,14 +52,20 @@ export default function Users(){
     const [nameField,setNameField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [offices,setOffices]=useState([])
+    const [officeSelected,setOfficeSelected]=useState(0);
 
-    const history = useHistory();
+    //const history = useHistory();
 
     useEffect(()=>{
         api.get('users')
         .then(response=>{
             setUsers(response.data);
             setUsersList(response.data)
+        });
+        api.get('offices')
+        .then(response=>{
+            setOffices(response.data);
         });
     },[]);
 
@@ -88,6 +96,7 @@ export default function Users(){
         setNameUserEdit(usersList.find(x => x.id === id).user_name);
         setEmailUserEdit(usersList.find(x => x.id === id).user_email);
         setFunctionUserEdit(usersList.find(x => x.id === id).user_function);
+        setOfficeSelected(usersList.find(x => x.id === id).OfficeId);
         setOpenEdit(true);
     }
     async function editUser(){
@@ -95,12 +104,14 @@ export default function Users(){
            user_name: nameUserEdit,
            user_email: emailUserEdit,
            user_function: functionUserEdit,
+           OfficeId: officeSelected
        };
         try{    
             const response=await api.put(('user/'+idUserSelected),userEdit);
             const userIndex= users.findIndex(x => x.id === idUserSelected);
             users[userIndex]=userEdit;
             const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
+            //userEdit.user_status=usersList[userListIndex].user_status;
             usersList[userListIndex]=userEdit;
         }catch(err){
             alert('Falha na edição, tente novamente');
@@ -110,6 +121,10 @@ export default function Users(){
 
     function handleCloseEdit(){
         setOpenEdit(false);
+    }
+
+    function handleOfficeSelected(id){
+        setOfficeSelected(id)
     }
 
     function filtrarUsuarios(){
@@ -159,7 +174,7 @@ export default function Users(){
                         <tr className='column-heading'>
                             <th className='collumn-user'>Nome do Usuario</th>
                             <th className='collum-email'>Email</th>
-                            <th className='collumn-function'>Função</th>
+                            <th className='collumn-function'>Cargo</th>
                             <th className='collumn-status'>Status</th>
                             <th className='collumn-actions'>Opções</th>
                         </tr>
@@ -238,6 +253,17 @@ export default function Users(){
                             value={emailUserEdit} 
                             onChange={e => setEmailUserEdit(e.target.value)}
                         />
+                        <InputLabel id="demo-simple-select-label">Cargos</InputLabel>
+                        <Select
+                            label={"Cargos"}
+                            id="demo-simple-select"
+                            margin="dense"
+                            fullWidth
+                            value={officeSelected}
+                            onChange={e =>handleOfficeSelected(e.target.value)}
+                            >
+                            {offices.map(office=>(<option key={office.id} value={office.id}>{office.office_name}</option>))}
+                        </Select>
                         <TextField
                             margin="dense"
                             id="function"
