@@ -22,7 +22,6 @@ import search from '../../assets/zoom.png'
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
-  
   const columns = [
     {
       key: "user_name",
@@ -30,36 +29,69 @@ import './styles.css';
       width: 100
     },
     {
-      key: "user_function",
+      key: "OfficeId",
       name: "Função",
       width: 100
     },
     {
+        key: "StatusId",
+        name: "Função",
+        width: 100
+    },
+    {
         key: "user_email",
         name: "E-mail"
-      }
+    }
   ];
 
 export default function Users(){
+
     const [users,setUsers]=useState([]);
     const [usersList,setUsersList]=useState([]);
     const [idUserSelected,setIdUserSelected]=useState(0);
     const [nameUserEdit,setNameUserEdit]=useState('');
     const [emailUserEdit,setEmailUserEdit]=useState('');
     const [functionUserEdit,setFunctionUserEdit]=useState('');
+    const [statusUserEdit,setStatusUserEdit]=useState('');
+    const [officeSelected,setOfficeSelected]=useState(0);
+
+    //const [functionUserIdEdit,setFunctionUserIdEdit]=useState(0);
     const [nameField,setNameField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [offices,setOffices]=useState([]);
+    const [officesList,setOfficesList]=useState([]);
 
-    const history = useHistory();
+    async function pegarCargos(){
+        await api.get('offices')
+        .then(response=>{
+            setOffices(response.data);
+            console.log(response.data);
+            setOfficeSelected(response.data[0].id);
+        });
+    }
+
+    useEffect(()=>{
+        api.get('offices')
+        .then(response=>{
+            setOffices(response.data);
+            setOfficesList(response.data)
+        });
+    },[]);
+
+    useEffect(()=>{
+        pegarCargos();
+    },[]);
 
     useEffect(()=>{
         api.get('users')
         .then(response=>{
             setUsers(response.data);
-            setUsersList(response.data)
+            setUsersList(response.data);
         });
     },[]);
+
+    const history = useHistory();
 
     function abrirConfirmacaoDelete(id){
         setIdUserSelected(id);
@@ -83,25 +115,33 @@ export default function Users(){
         setOpen(false);
     }
 
+    function handleofficeSelected(id){
+        setOfficeSelected(id)
+        console.log(id);
+    }
     function abrirModalEdit(id){
         setIdUserSelected(id);
         setNameUserEdit(usersList.find(x => x.id === id).user_name);
         setEmailUserEdit(usersList.find(x => x.id === id).user_email);
-        setFunctionUserEdit(usersList.find(x => x.id === id).user_function);
+        //setFunctionUserEdit(usersList.find(x => x.id === id).OfficeId);
+        setStatusUserEdit(usersList.find(x => x.id === id).StatusId);
+        //setFunctionUserIdEdit(usersList.find(x => x.id === id).OfficeId);
+        setFunctionUserEdit(officesList.find(x => x.id === (usersList.find(x => x.id === id).OfficeId)).office_name);
         setOpenEdit(true);
     }
     async function editUser(){
        const userEdit={
            user_name: nameUserEdit,
            user_email: emailUserEdit,
-           user_function: functionUserEdit,
+           OfficeId: functionUserEdit,
+           StatusId: statusUserEdit,
        };
         try{    
             const response=await api.put(('user/'+idUserSelected),userEdit);
             const userIndex= users.findIndex(x => x.id === idUserSelected);
             users[userIndex]=userEdit;
             const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
-            usersList[userListIndex]=userEdit;
+            usersList[userListIndex]=userEdit;  
         }catch(err){
             alert('Falha na edição, tente novamente');
         }
@@ -169,8 +209,8 @@ export default function Users(){
                             <tr key={user.id}>
                                 <td>{user.user_name}</td>
                                 <td>{user.user_email}</td>
-                                <td>{user.user_function}</td>
-                                <td>{user.user_status}</td>
+                                <td>{officesList.find(y => y.id ===user.OfficeId).office_name}</td>
+                                <td>{user.StatusId}</td>
                                 <td className="action">
                                     <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
                                         <Icon style={{ color: "#292929" }}>
@@ -235,18 +275,23 @@ export default function Users(){
                             label="Nome"
                             type="email"
                             fullWidth
-                            value={emailUserEdit} 
+                            value={emailUserEdit}         
                             onChange={e => setEmailUserEdit(e.target.value)}
                         />
                         <TextField
                             margin="dense"
                             id="function"
+                            select
                             label="Função"
-                            type="text"
                             fullWidth
-                            value={functionUserEdit} 
-                            onChange={e => setFunctionUserEdit(e.target.value)}
-                        />
+                            placeholder={officesList[functionUserEdit]}
+                            value={officesList} 
+                            onChange={handleofficeSelected}
+                            defaultValue={officesList[functionUserEdit]}
+                            select="hidden"
+                        >
+                        {offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))}
+                        </TextField>
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleCloseEdit} color="primary">
