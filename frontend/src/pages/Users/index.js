@@ -48,32 +48,27 @@ export default function Users(){
 
     const [users,setUsers]=useState([]);
     const [usersList,setUsersList]=useState([]);
-    const [idUserSelected,setIdUserSelected]=useState(localStorage.getItem('userId'));
+    const [offices,setOffices]=useState([]);
+    const [officesList,setOfficesList]=useState([]);
+    
+    const [idUserSelected,setIdUserSelected]=useState(0);
+    const [idOfficeSelected,setIdOfficeSelected]=useState(0);
+    const [nameOfficeSelected, setNameOfficeSelected]=useState(''); 
+
     const [nameUserEdit,setNameUserEdit]=useState('');
     const [emailUserEdit,setEmailUserEdit]=useState('');
-    const [statusUserEdit,setStatusUserEdit]=useState('');
-    const [officeSelected,setOfficeSelected]=useState(0);
+    const [cargoUserEdit,setCargoUserEdit]=useState(0);
+    const [cargoNameUserEdit,setCargoNameUserEdit]=useState('');
+    const [statusUserEdit,setStatusUserEdit]=useState(0);
 
     const [nameField,setNameField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const [offices,setOffices]=useState([]);
-    const [officesList,setOfficesList]=useState([]);
     
-    const [functionUserEdit,setFunctionUserEdit]=useState('');
-    const [functionNameOffice, setFunctionNameOffice]=useState('');    
-
     useEffect(()=>{
-        api.get('users')
-        .then(response=>{
-            setUsers(response.data);
-            setUsersList(response.data);
-            let id = response.data.findIndex( x=> x.id == idUserSelected);
-            var idOffice = response.data[id].OfficeId;
-            setOfficeSelected(idOffice);  
-            pegarCargos(idOffice);         
-        });
+        pegarCargos();
     },[]);
+
     useEffect(()=>{
         api.get('offices')
         .then(response=>{
@@ -82,20 +77,27 @@ export default function Users(){
         });
     },[]);
 
-    async function pegarCargos(idOffice){
+    useEffect(()=>{
+        api.get('users')
+        .then(response=>{
+            setUsers(response.data);
+            setUsersList(response.data);      
+        });
+    },[]);
+    
+    const history = useHistory();
+
+    async function pegarCargos(){
         await api.get('offices')
         .then(response=>{
             setOffices(response.data);
-            let index = response.data.findIndex(x => x.id == idOffice);
-            setFunctionNameOffice(response.data[index].office_name);
         });
     }
 
-    const history = useHistory();
 
     function abrirConfirmacaoDelete(id){
         setIdUserSelected(id);
-        setOpen(true);setOpen(true);
+        setOpen(true);
     }
     function deleteUser(){
         api.delete(('user/'+idUserSelected))
@@ -116,37 +118,40 @@ export default function Users(){
     }
 
     function handleofficeSelected(id){
-        setOfficeSelected(id)
-        setFunctionUserEdit(officesList.find(x => x.id === id).id);
-        setFunctionNameOffice(officesList.find(x=>x.id === id).office_name);
+        setIdOfficeSelected(id)
+        setCargoUserEdit(officesList.find(x => x.id === id).id);
+        setCargoNameUserEdit(officesList.find(x=>x.id === id).office_name);
     }
     function abrirModalEdit(id){
         setIdUserSelected(id);
         setNameUserEdit(usersList.find(x => x.id === id).user_name);
         setEmailUserEdit(usersList.find(x => x.id === id).user_email);
-        setFunctionUserEdit(officesList.find(x => x.id === officeSelected).id);
-        setFunctionNameOffice(officesList.find(x => x.id === officeSelected).office_name);
+        setCargoUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).id);
+        setCargoNameUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).office_name);
         setStatusUserEdit(usersList.find(x => x.id === id).StatusId);
+        console.log(users);
         setOpenEdit(true);
     }
     async function editUser(){
-       const userEdit={
-           user_name: nameUserEdit,
-           user_email: emailUserEdit,
-           OfficeId: officeSelected,
-           StatusId: statusUserEdit,
-       };
-        try{    
-            //const response = await api.put(('user/'+idUserSelected),userEdit);
-            const userIndex= users.findIndex(x => x.id === idUserSelected);
-            users[userIndex]=userEdit;
-            const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
-            usersList[userListIndex]=userEdit;  
-        }catch(err){
-            alert('Falha na edição, tente novamente');
-        }
-        handleCloseEdit();
-    }
+        const userEdit={
+            id: idUserSelected,
+            user_name: nameUserEdit,
+            user_email: emailUserEdit,
+            //user_function: functionUserEdit,
+            OfficeId: cargoUserEdit,
+            StatusId: statusUserEdit,
+        };
+         try{    
+             const response=await api.put(('user/'+ idUserSelected),userEdit);
+             const userIndex= users.findIndex(x => x.id === idUserSelected);
+             users[userIndex]=userEdit;
+             const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
+             usersList[userListIndex]=userEdit;  
+         }catch(err){
+             alert('Falha na edição, tente novamente');
+         }
+         handleCloseEdit();
+     }
 
     function handleCloseEdit(){
         setOpenEdit(false);
@@ -208,10 +213,9 @@ export default function Users(){
                             <tr key={user.id}>
                                 <td>{user.user_name}</td>
                                 <td>{user.user_email}</td>
-                                <td>{functionNameOffice}</td>
+                                <td>{user.OfficeId}</td>
                                 <td>{user.StatusId}</td>
                                 <td className="action">
-        
                                     <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
                                         <Icon style={{ color: "#292929" }}>
                                             <Edit />
@@ -272,7 +276,7 @@ export default function Users(){
                         <TextField
                             margin="dense"
                             id="email"
-                            label="E-mail"
+                            label="Nome"
                             type="email"
                             fullWidth
                             value={emailUserEdit}         
@@ -281,16 +285,14 @@ export default function Users(){
                         <TextField
                             margin="dense"
                             id="function"
-                            label="Cargo"
+                            select
+                            label="Função"
                             fullWidth
-                            defaultValue={offices.map(cargo=>(cargo.id ===[officeSelected]))}
-                            select={offices.map(cargo=>(cargo.id ===[officeSelected]))}
-
-                            value={officeSelected}    
+                            select={offices.map(cargo=>(cargo.id ===[cargoUserEdit]))}
+                            value={cargoUserEdit}    
                             onChange={e =>handleofficeSelected(e.target.value)}
-   
                         >
-                        {offices.map(cargo=>(<option value={cargo.id}>{cargo.office_name}</option>))}
+                        {offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))}
                         </TextField>
                         </DialogContent>
                         <DialogActions>
