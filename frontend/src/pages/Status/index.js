@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import Footer from '../../components/Footer';
 import Menu from '../../components/Menu';
-import {FiEdit,FiTrash,FiSearch,FiX} from "react-icons/fi/";
+import {FiSearch} from "react-icons/fi/";
 
 //Material UI
 import Button from '@material-ui/core/Button';
@@ -37,7 +37,7 @@ export default function Status(){
     const history = useHistory();
 
     useEffect(()=>{
-        api.get('status')
+        api.get('statuses')
         .then(response=>{
             setStatus(response.data);
             setStatusList(response.data)

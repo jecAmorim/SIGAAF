@@ -220,7 +220,6 @@ export default function Albums(){
                                     onChange={e => setDescricaoAlbumEdit(e.target.value)}
                                 />
                                 <TextField
-                                    id="date"
                                     id="data_aquisicao"
                                     label={"Data de Aquisição"}
                                     type="date"

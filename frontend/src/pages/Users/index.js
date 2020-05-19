@@ -18,31 +18,7 @@ import Edit from '@material-ui/icons/Edit';
 
 
 import api from '../../services/api';
-//import search from '../../assets/zoom.png'
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
-
-  const columns = [
-    {
-      key: "user_name",
-      name: "Nome do Usuario",
-      width: 100
-    },
-    {
-      key: "OfficeId",
-      name: "Função",
-      width: 100
-    },
-    {
-        key: "StatusId",
-        name: "Função2",
-        width: 100
-    },
-    {
-        key: "user_email",
-        name: "E-mail"
-    }
-  ];
 
 export default function Users(){
 
@@ -50,25 +26,25 @@ export default function Users(){
     const [usersList,setUsersList]=useState([]);
     const [offices,setOffices]=useState([]);
     const [officesList,setOfficesList]=useState([]);
+    const [statuses,setStatuses]=useState([]);
+    const [statusesList,setStatusesList]=useState([]);
     
     const [idUserSelected,setIdUserSelected]=useState(0);
-    const [idOfficeSelected,setIdOfficeSelected]=useState(0);
-    const [nameOfficeSelected, setNameOfficeSelected]=useState(''); 
+    const [idOfficeSelected,setIdOfficeSelected]=useState(0); 
+    const [idStatusSelected,setIdStatusSelected]=useState(0); 
 
     const [nameUserEdit,setNameUserEdit]=useState('');
     const [emailUserEdit,setEmailUserEdit]=useState('');
     const [cargoUserEdit,setCargoUserEdit]=useState(0);
     const [cargoNameUserEdit,setCargoNameUserEdit]=useState('');
     const [statusUserEdit,setStatusUserEdit]=useState(0);
+    const [statusNameUserEdit,setStatusNameUserEdit]=useState('');
+
 
     const [nameField,setNameField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     
-    useEffect(()=>{
-        pegarCargos();
-    },[]);
-
     useEffect(()=>{
         api.get('offices')
         .then(response=>{
@@ -78,6 +54,15 @@ export default function Users(){
     },[]);
 
     useEffect(()=>{
+        api.get('statuses')
+        .then(response=>{
+            setStatuses(response.data);
+            setStatusesList(response.data)
+        });
+    },[]);
+
+
+    useEffect(()=>{
         api.get('users')
         .then(response=>{
             setUsers(response.data);
@@ -85,6 +70,14 @@ export default function Users(){
         });
     },[]);
     
+    useEffect(()=>{
+        pegarCargos();
+    },[]);
+
+    useEffect(()=>{
+        pegarStatus();
+    },[]);
+
     const history = useHistory();
 
     async function pegarCargos(){
@@ -93,7 +86,12 @@ export default function Users(){
             setOffices(response.data);
         });
     }
-
+    async function pegarStatus(){
+        await api.get('statuses')
+        .then(response=>{
+            setStatuses(response.data);
+        });
+    }
 
     function abrirConfirmacaoDelete(id){
         setIdUserSelected(id);
@@ -119,8 +117,17 @@ export default function Users(){
 
     function handleofficeSelected(id){
         setIdOfficeSelected(id)
+        console.log(idOfficeSelected);
         setCargoUserEdit(officesList.find(x => x.id === id).id);
         setCargoNameUserEdit(officesList.find(x=>x.id === id).office_name);
+        console.log(cargoNameUserEdit);
+    }
+    function handlestatusSelected(id){
+        setIdStatusSelected(id)
+        console.log(idStatusSelected);
+        setStatusUserEdit(statusesList.find(x => x.id === id).id);
+        setStatusNameUserEdit(statusesList.find(x=>x.id === id).status_name);
+        console.log(statusNameUserEdit);
     }
     function abrirModalEdit(id){
         setIdUserSelected(id);
@@ -128,8 +135,9 @@ export default function Users(){
         setEmailUserEdit(usersList.find(x => x.id === id).user_email);
         setCargoUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).id);
         setCargoNameUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).office_name);
-        setStatusUserEdit(usersList.find(x => x.id === id).StatusId);
-        console.log(users);
+        setStatusUserEdit(statusesList.find(x => x.id === usersList.find(x => x.id === id).StatusId).id);
+        setStatusNameUserEdit(statusesList.find(x => x.id === usersList.find(x => x.id === id).StatusId).status_name);
+
         setOpenEdit(true);
     }
     async function editUser(){
@@ -137,7 +145,6 @@ export default function Users(){
             id: idUserSelected,
             user_name: nameUserEdit,
             user_email: emailUserEdit,
-            //user_function: functionUserEdit,
             OfficeId: cargoUserEdit,
             StatusId: statusUserEdit,
         };
@@ -158,10 +165,7 @@ export default function Users(){
     }
 
     function filtrarUsuarios(){
-        console.log(nameField);
-        console.log(users.filter((user)=> user.user_name.includes(nameField, 0)));
         setUsersList(users.filter((user)=> user.user_name.startsWith(nameField)));
-        console.log(usersList);
     }
     function limparCampo(){
         setUsersList([...users]);
@@ -213,8 +217,8 @@ export default function Users(){
                             <tr key={user.id}>
                                 <td>{user.user_name}</td>
                                 <td>{user.user_email}</td>
-                                <td>{user.OfficeId}</td>
-                                <td>{user.StatusId}</td>
+                                <td>{officesList.find(cargo => (cargo.id === user.OfficeId)).office_name}</td>
+                                <td>{statusesList.find(status => (status.id === user.StatusId)).status_name}</td>
                                 <td className="action">
                                     <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
                                         <Icon style={{ color: "#292929" }}>
@@ -285,7 +289,6 @@ export default function Users(){
                         <TextField
                             margin="dense"
                             id="function"
-                            select
                             label="Função"
                             fullWidth
                             select={offices.map(cargo=>(cargo.id ===[cargoUserEdit]))}
@@ -293,6 +296,17 @@ export default function Users(){
                             onChange={e =>handleofficeSelected(e.target.value)}
                         >
                         {offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))}
+                        </TextField>
+                        <TextField
+                            margin="dense"
+                            id="function2"
+                            label="Status"
+                            fullWidth
+                            select={statuses.map(status=>(status.id ===[statusUserEdit]))}
+                            value={statusUserEdit}    
+                            onChange={e =>handlestatusSelected(e.target.value)}
+                        >
+                        {statuses.map(status=>(<option key={status.id} value={status.id}>{status.status_name}</option>))}
                         </TextField>
                         </DialogContent>
                         <DialogActions>
