@@ -76,8 +76,8 @@ export default function Users(){
     function deleteUser(){
         api.delete(('user/'+idUserSelected))
         .then(response=>{
-            setUsers(users.filter((user) => (user.id!=idUserSelected?true:false)));
-            setUsersList(usersList.filter((user) => (user.id!=idUserSelected?true:false)));
+            setUsers(users.filter((user) => (user.id!==idUserSelected?true:false)));
+            setUsersList(usersList.filter((user) => (user.id!==idUserSelected?true:false)));
         })
         .catch((err) => {
             console.log(err);

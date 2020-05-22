@@ -104,17 +104,6 @@ export default function RegisterAlbum(){
                                 />
                                 </li>                             
                                 <li>
-                                    <p>Permissões</p>
-                                    <ul class="flex-inner">
-                                        <li>
-                                            
-                                        </li>
-                                        <li>
-                                            
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
                                  <button className='button' type='submit'>Salvar</button>
                                  <button className='button cancel' type='button'>Cancelar</button>
                                 </li>

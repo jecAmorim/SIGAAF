@@ -22,11 +22,6 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      user_status: {
-        allowNull: false,
-        defaultValue: "pending",
-        type: DataTypes.STRING,
-      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
