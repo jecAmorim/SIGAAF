@@ -1,5 +1,5 @@
 import React from 'react';
-import SideNav, {Header, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, {NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 // Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import {FiUser,FiHome,FiBook,FiImage,FiFileText,FiHelpCircle,FiLogOut,FiSettings} from "react-icons/fi/";
@@ -7,7 +7,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 import logoImg from '../assets/logomenu.svg';
 
-import {Link,useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 export default function Footer({title,children}) {
     const history=useHistory();

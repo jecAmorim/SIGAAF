@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import Footer from '../../components/Footer';
 import Menu from '../../components/Menu';
-import {FiEdit,FiTrash,FiSearch,FiX} from "react-icons/fi/";
+import {FiSearch,FiX} from "react-icons/fi/";
 
 //Material UI
 import Button from '@material-ui/core/Button';
@@ -20,54 +20,80 @@ import Edit from '@material-ui/icons/Edit';
 
 
 import api from '../../services/api';
-import search from '../../assets/zoom.png'
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
-
-  
-  const columns = [
-    {
-      key: "user_name",
-      name: "Nome do Usuario",
-      width: 100
-    },
-    {
-      key: "user_function",
-      name: "Função",
-      width: 100
-    },
-    {
-        key: "user_email",
-        name: "E-mail"
-      }
-  ];
 
 export default function Users(){
     const [users,setUsers]=useState([]);
     const [usersList,setUsersList]=useState([]);
+    const [offices,setOffices]=useState([]);
+    const [officesList,setOfficesList]=useState([]);
+    const [statuses,setStatuses]=useState([]);
+    const [statusesList,setStatusesList]=useState([]);
+    
     const [idUserSelected,setIdUserSelected]=useState(0);
+    const [idOfficeSelected,setIdOfficeSelected]=useState(0); 
+    const [idStatusSelected,setIdStatusSelected]=useState(0); 
+
     const [nameUserEdit,setNameUserEdit]=useState('');
     const [emailUserEdit,setEmailUserEdit]=useState('');
-    const [functionUserEdit,setFunctionUserEdit]=useState('');
+    const [cargoUserEdit,setCargoUserEdit]=useState(0);
+    const [cargoNameUserEdit,setCargoNameUserEdit]=useState('');
+    
+    const [statusUserEdit,setStatusUserEdit]=useState(0);
+    const [statusNameUserEdit,setStatusNameUserEdit]=useState('');
+
+
     const [nameField,setNameField]=useState('');
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const [offices,setOffices]=useState([])
-    const [officeSelected,setOfficeSelected]=useState(0);
+    
+    useEffect(()=>{
+        api.get('offices')
+        .then(response=>{
+            setOffices(response.data);
+            setOfficesList(response.data)
+        });
+    },[]);
 
-    //const history = useHistory();
+    useEffect(()=>{
+        api.get('statuses')
+        .then(response=>{
+            setStatuses(response.data);
+            setStatusesList(response.data)
+        });
+    },[]);
+
 
     useEffect(()=>{
         api.get('users')
         .then(response=>{
             setUsers(response.data);
-            setUsersList(response.data)
+            setUsersList(response.data);      
         });
-        api.get('offices')
+    },[]);
+    
+    useEffect(()=>{
+        pegarCargos();
+    },[]);
+
+    useEffect(()=>{
+        pegarStatus();
+    },[]);
+
+    const history = useHistory();
+
+    async function pegarCargos(){
+        await api.get('offices')
         .then(response=>{
             setOffices(response.data);
         });
-    },[]);
+    }
+    async function pegarStatus(){
+        await api.get('statuses')
+        .then(response=>{
+            setStatuses(response.data);
+        });
+    }
 
     function abrirConfirmacaoDelete(id){
         setIdUserSelected(id);
@@ -91,53 +117,66 @@ export default function Users(){
         setOpen(false);
     }
 
+    function handleofficeSelected(id){
+        setIdOfficeSelected(id)
+        console.log(idOfficeSelected);
+        setCargoUserEdit(officesList.find(x => x.id === id).id);
+        setCargoNameUserEdit(officesList.find(x=>x.id === id).office_name);
+        console.log(cargoNameUserEdit);
+    }
+    function handlestatusSelected(id){
+        setIdStatusSelected(id)
+        console.log(idStatusSelected);
+        setStatusUserEdit(statusesList.find(x => x.id === id).id);
+        setStatusNameUserEdit(statusesList.find(x=>x.id === id).status_name);
+        console.log(statusNameUserEdit);
+    }
     function abrirModalEdit(id){
         setIdUserSelected(id);
         setNameUserEdit(usersList.find(x => x.id === id).user_name);
         setEmailUserEdit(usersList.find(x => x.id === id).user_email);
-        setFunctionUserEdit(usersList.find(x => x.id === id).user_function);
-        setOfficeSelected(usersList.find(x => x.id === id).OfficeId);
+        setCargoUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).id);
+        setCargoNameUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).office_name);
+        setStatusUserEdit(statusesList.find(x => x.id === usersList.find(x => x.id === id).StatusId).id);
+        setStatusNameUserEdit(statusesList.find(x => x.id === usersList.find(x => x.id === id).StatusId).status_name);
+
         setOpenEdit(true);
     }
     async function editUser(){
-       const userEdit={
-           user_name: nameUserEdit,
-           user_email: emailUserEdit,
-           user_function: functionUserEdit,
-           OfficeId: officeSelected
-       };
-        try{    
-            const response=await api.put(('user/'+idUserSelected),userEdit);
-            const userIndex= users.findIndex(x => x.id === idUserSelected);
-            users[userIndex]=userEdit;
-            const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
-            //userEdit.user_status=usersList[userListIndex].user_status;
-            usersList[userListIndex]=userEdit;
-        }catch(err){
-            alert('Falha na edição, tente novamente');
-        }
-        handleCloseEdit();
-    }
+        const userEdit={
+            id: idUserSelected,
+            user_name: nameUserEdit,
+            user_email: emailUserEdit,
+            OfficeId: cargoUserEdit,
+            StatusId: statusUserEdit,
+        };
+         try{    
+             const response=await api.put(('user/'+ idUserSelected),userEdit);
+             const userIndex= users.findIndex(x => x.id === idUserSelected);
+             users[userIndex]=userEdit;
+             const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
+             usersList[userListIndex]=userEdit;  
+         }catch(err){
+             alert('Falha na edição, tente novamente');
+         }
+         handleCloseEdit();
+     }
 
     function handleCloseEdit(){
         setOpenEdit(false);
     }
 
     function handleOfficeSelected(id){
-        setOfficeSelected(id)
+        setIdOfficeSelected(id)
     }
 
     function filtrarUsuarios(){
-        console.log(nameField);
-        console.log(users.filter((user)=> user.user_name.includes(nameField, 0)));
         setUsersList(users.filter((user)=> user.user_name.startsWith(nameField)));
-        console.log(usersList);
     }
     function limparCampo(){
         setUsersList([...users]);
         setNameField('');
     }
-
     return(
         <div>
         <div className="container">
@@ -184,8 +223,8 @@ export default function Users(){
                             <tr key={user.id}>
                                 <td>{user.user_name}</td>
                                 <td>{user.user_email}</td>
-                                <td>{user.user_function}</td>
-                                <td>{user.user_status}</td>
+                                <td>{officesList.find(cargo => (cargo.id === user.OfficeId)).office_name}</td>
+                                <td>{statusesList.find(status => (status.id === user.StatusId)).status_name}</td>
                                 <td className="action">
                                     <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
                                         <Icon style={{ color: "#292929" }}>
@@ -259,7 +298,7 @@ export default function Users(){
                             id="demo-simple-select"
                             margin="dense"
                             fullWidth
-                            value={officeSelected}
+                            value={idOfficeSelected}
                             onChange={e =>handleOfficeSelected(e.target.value)}
                             >
                             {offices.map(office=>(<option key={office.id} value={office.id}>{office.office_name}</option>))}
@@ -270,9 +309,23 @@ export default function Users(){
                             label="Função"
                             type="text"
                             fullWidth
-                            value={functionUserEdit} 
-                            onChange={e => setFunctionUserEdit(e.target.value)}
-                        />
+                            select={offices.map(cargo=>(cargo.id ===[cargoUserEdit]))}
+                            value={cargoUserEdit}    
+                            onChange={e =>handleofficeSelected(e.target.value)}
+                        >
+                        {offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))}
+                        </TextField>
+                        <TextField
+                            margin="dense"
+                            id="function2"
+                            label="Status"
+                            fullWidth
+                            select={statuses.map(status=>(status.id ===[statusUserEdit]))}
+                            value={statusUserEdit}    
+                            onChange={e =>handlestatusSelected(e.target.value)}
+                        >
+                        {statuses.map(status=>(<option key={status.id} value={status.id}>{status.status_name}</option>))}
+                        </TextField>
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleCloseEdit} color="primary">

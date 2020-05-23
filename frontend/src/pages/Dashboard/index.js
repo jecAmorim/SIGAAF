@@ -1,17 +1,9 @@
-import React,{useState} from 'react';
+import React from 'react';
 import Footer from '../../components/Footer';
 import Menu from '../../components/Menu';
 
-// Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-
-import {Link,useHistory} from 'react-router-dom';
-
-
-
-import api from '../../services/api';
 import './stylesDash.css';
-
 
 import logoImg from '../../assets/logo.svg';
 
