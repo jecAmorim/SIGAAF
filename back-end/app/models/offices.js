@@ -4,8 +4,16 @@ module.exports = (sequelize, DataTypes) => {
       office_name: DataTypes.STRING,
     });
     Office.associate = models => {
-      Office.hasMany(models.User);
+      Office.hasMany(models.User,{ foreignKey: {
+        name: 'OfficeId',
+        allowNull: false
+      }, constraints: false})
     };
+    /*
+      Office.associate = function(models) {
+      Office.belongsTo(models.User, { foreignKey: 'OfficeId', sourceKey: 'id' } );
+    }
+    */
 
     return Office;
   }

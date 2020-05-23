@@ -38,13 +38,15 @@ app.use(bodyParser.json())
                user_password,
                office_id,
                status_id}=req.body; 
+
         const user = await User.create({
           user_name: user_name,
           user_email: user_email,
           user_password: user_password,
-          OfficeId: office_id,
-          StatusId: status_id
-        }).catch(function(err){
+          OfficeID: office_id,
+          StatusID: status_id
+        })
+        .catch(function(err){
             res.status(400).send(`Erro: ${err}`)
           });
         res.json(user);
@@ -82,26 +84,29 @@ app.use(bodyParser.json())
     });
 
     app.get('/users', async (req, res) => {
-      const users = await User.findAll()
+      const users = await User.findAll({include: [Status]})
       .catch(function(err){
         res.send(`Erro: ${err}`)
       });
-      let i =0;
+      /*let i =0;
       users.forEach(async(user) => {
+        console.log(users[i].OfficeId);
         //Se for retornado um usuario, buscar o cargo
         const office = await Office.findOne({
           where: {
-            id: users.OfficeId
+            id: users[i].OfficeId
           }
         }) 
         .catch(function(err){
           res.status(400).send(`Erro: ${err}`)
         });
         console.log(office.dataValues);
+        users[i].attributes.office=`office`;
         users[i].dataValues.office=office.dataValues;
+        console.log(users[i])
         i++;
       });
-  
+    */
       res.json(users);
     }); //Listar todos os usuarios
     
