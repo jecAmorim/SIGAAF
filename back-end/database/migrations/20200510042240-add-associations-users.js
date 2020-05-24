@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 module.exports = {
     up: (queryInterface, DataTypes) => {
@@ -23,4 +23,4 @@ module.exports = {
       'OfficeId' // key we want to remove
     );
   }
-};
+};/*/

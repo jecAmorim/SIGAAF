@@ -38,18 +38,21 @@ app.use(bodyParser.json())
                user_password,
                office_id,
                status_id}=req.body; 
-
+               const office=Office.findOne({where:{id:office_id}});
+               const status=Status.findOne({where:{id:status_id}});
+               
         const user = await User.create({
           user_name: user_name,
           user_email: user_email,
-          user_password: user_password,
-          OfficeID: office_id,
-          StatusID: status_id
+          user_password: user_password
         })
         .catch(function(err){
             res.status(400).send(`Erro: ${err}`)
           });
-        res.json(user);
+          //Para adicionar a chave estrangeira
+          await user.setOffice(office_id);
+          await user.setStatus(status_id);
+          res.json(user);
     });//Criar usuario
 
     app.post('/logon', async (req, res) => {
@@ -84,29 +87,12 @@ app.use(bodyParser.json())
     });
 
     app.get('/users', async (req, res) => {
-      const users = await User.findAll({include: [Status]})
+      //Include faz inner join de user com o cargo e status
+      const users = await User.findAll({include: [Office,Status]})
       .catch(function(err){
         res.send(`Erro: ${err}`)
       });
-      /*let i =0;
-      users.forEach(async(user) => {
-        console.log(users[i].OfficeId);
-        //Se for retornado um usuario, buscar o cargo
-        const office = await Office.findOne({
-          where: {
-            id: users[i].OfficeId
-          }
-        }) 
-        .catch(function(err){
-          res.status(400).send(`Erro: ${err}`)
-        });
-        console.log(office.dataValues);
-        users[i].attributes.office=`office`;
-        users[i].dataValues.office=office.dataValues;
-        console.log(users[i])
-        i++;
-      });
-    */
+
       res.json(users);
     }); //Listar todos os usuarios
     

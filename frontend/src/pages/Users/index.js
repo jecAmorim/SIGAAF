@@ -47,21 +47,7 @@ export default function Users(){
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     
-    useEffect(()=>{
-        api.get('offices')
-        .then(response=>{
-            setOffices(response.data);
-            setOfficesList(response.data)
-        });
-    },[]);
 
-    useEffect(()=>{
-        api.get('statuses')
-        .then(response=>{
-            setStatuses(response.data);
-            setStatusesList(response.data)
-        });
-    },[]);
 
 
     useEffect(()=>{
@@ -70,16 +56,20 @@ export default function Users(){
             setUsers(response.data);
             setUsersList(response.data);      
         });
+
+        api.get('offices')
+        .then(response=>{
+            setOffices(response.data);
+            setOfficesList(response.data)
+        });
+
+        api.get('statuses')
+        .then(response=>{
+            setStatuses(response.data);
+            setStatusesList(response.data)
+        });
     },[]);
     
-    useEffect(()=>{
-        pegarCargos();
-    },[]);
-
-    useEffect(()=>{
-        pegarStatus();
-    },[]);
-
     const history = useHistory();
 
     async function pegarCargos(){
@@ -125,24 +115,21 @@ export default function Users(){
         console.log(cargoNameUserEdit);
     }
     function handlestatusSelected(id){
-        setIdStatusSelected(id)
-        console.log(idStatusSelected);
-        setStatusUserEdit(statusesList.find(x => x.id === id).id);
-        setStatusNameUserEdit(statusesList.find(x=>x.id === id).status_name);
-        console.log(statusNameUserEdit);
+        setStatusUserEdit(id);
     }
     function abrirModalEdit(id){
         setIdUserSelected(id);
         setNameUserEdit(usersList.find(x => x.id === id).user_name);
         setEmailUserEdit(usersList.find(x => x.id === id).user_email);
-        setCargoUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).id);
-        setCargoNameUserEdit(officesList.find(x => x.id === usersList.find(x => x.id === id).OfficeId).office_name);
-        setStatusUserEdit(statusesList.find(x => x.id === usersList.find(x => x.id === id).StatusId).id);
-        setStatusNameUserEdit(statusesList.find(x => x.id === usersList.find(x => x.id === id).StatusId).status_name);
+        setCargoUserEdit(usersList.find(x => x.id === id).Office.id);
+        setCargoNameUserEdit(usersList.find(x => x.id === id).Office.office_name);
+        setStatusUserEdit(usersList.find(x => x.id === id).Status.id);
+        setStatusNameUserEdit(usersList.find(x => x.id === id).Status.status_name);
 
         setOpenEdit(true);
     }
     async function editUser(){
+        
         const userEdit={
             id: idUserSelected,
             user_name: nameUserEdit,
@@ -153,9 +140,15 @@ export default function Users(){
          try{    
              const response=await api.put(('user/'+ idUserSelected),userEdit);
              const userIndex= users.findIndex(x => x.id === idUserSelected);
-             users[userIndex]=userEdit;
+             users[userIndex].user_name=nameUserEdit;
+             users[userIndex].user_email=nameUserEdit;
+             users[userIndex].Office=offices.find(office => office.id===cargoUserEdit);
+             users[userIndex].Status=statuses.find(status => status.id===statusUserEdit);
              const userListIndex= usersList.findIndex(x => x.id === idUserSelected);
-             usersList[userListIndex]=userEdit;  
+             usersList[userListIndex].user_name=nameUserEdit;
+             usersList[userListIndex].user_email=nameUserEdit;
+             usersList[userListIndex].Office=offices.find(office => office.id===cargoUserEdit);
+             usersList[userListIndex].Status=statuses.find(status => status.id===statusUserEdit);
          }catch(err){
              alert('Falha na edição, tente novamente');
          }
@@ -167,7 +160,7 @@ export default function Users(){
     }
 
     function handleOfficeSelected(id){
-        setIdOfficeSelected(id)
+        setCargoUserEdit(id)
     }
 
     function filtrarUsuarios(){
@@ -223,8 +216,8 @@ export default function Users(){
                             <tr key={user.id}>
                                 <td>{user.user_name}</td>
                                 <td>{user.user_email}</td>
-                                <td>{officesList.find(cargo => (cargo.id === user.OfficeId)).office_name}</td>
-                                <td>{statusesList.find(status => (status.id === user.StatusId)).status_name}</td>
+                                <td>{user.Office.office_name}</td>
+                                <td>{user.Status.status_name}</td>
                                 <td className="action">
                                     <IconButton aria-label="edit"  onClick={() =>abrirModalEdit(user.id)}>
                                         <Icon style={{ color: "#292929" }}>
@@ -298,23 +291,11 @@ export default function Users(){
                             id="demo-simple-select"
                             margin="dense"
                             fullWidth
-                            value={idOfficeSelected}
+                            value={cargoUserEdit}
                             onChange={e =>handleOfficeSelected(e.target.value)}
                             >
                             {offices.map(office=>(<option key={office.id} value={office.id}>{office.office_name}</option>))}
                         </Select>
-                        <TextField
-                            margin="dense"
-                            id="function"
-                            label="Função"
-                            type="text"
-                            fullWidth
-                            select={offices.map(cargo=>(cargo.id ===[cargoUserEdit]))}
-                            value={cargoUserEdit}    
-                            onChange={e =>handleofficeSelected(e.target.value)}
-                        >
-                        {offices.map(cargo=>(<option key={cargo.id} value={cargo.id}>{cargo.office_name}</option>))}
-                        </TextField>
                         <TextField
                             margin="dense"
                             id="function2"

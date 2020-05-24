@@ -22,6 +22,8 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      OfficeId: DataTypes.INTEGER,
+      StatusId: DataTypes.INTEGER,
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
