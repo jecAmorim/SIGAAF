@@ -15,26 +15,31 @@ body{
     -webkit-font-smooothing:antialised;
 }
 
-.side-nav{
+div.sidenav---sidenav---_2tBP, .side-nav{
     background-color: #12524B;
-
-    padding: 0.3%;
-    overflow: auto;
 
     position: fixed;
     top:0;
     left: 0;
-    height: 100vh;
+    height: 110vh;
 
-    min-width: 5%;
-    width: 6%;
+    width: auto !important;
+
+    justify-items: center;
+    align-items: center;
 }
 
-.side-nav .navItem-logo{
-    max-width: 50px;
-    width: 100%;
+.navItem-logo{
+    justify-items: center;
+    align-items: center;
+    padding: 1.5%;
 }
 
+.navItem-logo img{
+    min-width: 40px;
+    width: 90%;
+}
+    
 .navItem-perfile{
     text-align: center;
     color: white;
@@ -55,45 +60,35 @@ body{
     font-weight: 300;
 }
 .navItem-perfile hr{
-    margin-top: 8%;
+    margin-top: 5%;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 .nav-body{
-    padding: 7%;
-    width: 98%;
-    margin: 0 2%;
-}
-
-svg.icon{
-    margin: 0% 0 -3% 0;
-    max-width: 45%;
+    padding: 0;
     width: 100%;
 }
 
-svg.album{
-    margin: -5% 0 -5% 0;
-    max-width: 43%;
-    width: 120%;
-}
-svg.foto{
-    margin: 0% 0 -5% 0;
-    max-width: 45%;
-    width: 90%;
-}
-div.sidenav---navicon---3gCRo{
-    line-height: 0px !important;
+.nav-body svg.icon{
+    height: 35px;
+    width: auto;
 }
 
-.nav-body h2{
-    margin: -1%;
-    font-size: 75%;
-    font-weight: bold;
-    line-height: 90%;
+div.sidenav---navicon---3gCRo, div.sidenav---sidenav-navitem---uwIJ-{
+    line-height: 8px !important;
+    font-size: 85% !important;
+    float: initial !important;
+    width: 100% !important;
 }
-
+div.sidenav---navicon---3gCRo svg, div.sidenav---sidenav-navitem---uwIJ- svg{
+    padding: 5% !important;
+}
+div.sidenav---sidenav-subnav---1EN61{
+    left: 100% !important;
+}
 .nav-body .icon-footer{
     display: flex;
     justify-content: center;
-
     position: fixed;
     bottom: 25px;
     left: 30px;
@@ -128,7 +123,6 @@ button{
 }
 
 form input, select{
- 
     border-radius: 8px;
     padding: 0 24px;
     width: 250px;
@@ -136,10 +130,7 @@ form input, select{
     left: 837px;
     top: 434px;
 
-    /* background- ton1 */
-
     background: #FFFFFF;
-    /* background- ton3 */
 
     border: 1.5px solid #EEEEEE;
     box-sizing: border-box;
@@ -147,24 +138,34 @@ form input, select{
     border-radius: 6px;
     margin-right: 50px;
 }
+
 select option::selection{
-border: 0;
-background-color: #12524B;
+    border: 0;
+    background-color: #12524B;
+    color: white;
 }
+
 option:hover{
     background-color: #12524B;
     color: white;
 }
 
 form textarea{
-   width: 100%;
-   resize: vertical;
-   min-height: 140px;
-   color:#333;
-   border: 1px solid #dcdce6;
-   border-radius: 8px;
-   padding: 16px 24px;
-   line-height: 24px;
+    width: 100%;
+    resize: vertical;
+    min-height: 100px;
+
+    border-radius: 8px;
+    border: 1.5px solid #EEEEEE;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    padding: 5px 24px;
+    margin-right: 50px;
+
+    background: #FFFFFF;
+
+    color:#333;
+    line-height: 24px;
 }
 
 .button,.button-cancel{
@@ -184,13 +185,14 @@ form textarea{
 
     transition: background-color 0.2s; 
 }
-.button-cancel{
-    
-    background: rgb(87, 92, 90);
-}
-
 .button:hover{
     background-color:#46CC6E;
+}
+.button-cancel{    
+    background: rgb(87, 92, 90);
+}
+.button-cancel:hover{
+    background: rgba(87, 92, 90,0.7);
 }
 
 .back-link{
@@ -211,5 +213,6 @@ form textarea{
 }
 
 .back-link:hover{
-opacity: 0.8;
+    opacity: 0.8;
 }
+

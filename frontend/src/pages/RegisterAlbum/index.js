@@ -55,64 +55,71 @@ export default function RegisterAlbum(){
     }
 
     return(
-        <div className="container">
-        <Menu></Menu>
-        <div className= 'dash'>
-            <h1>Dados do Album</h1>
-            <div className='register'>
-            <form>
-                    </form>
-                    <div>
-                        <form onSubmit={handleRegister}>
-                            <ul className="flex-outer">
-                                <li>
-                                <label for="name">Titulo: <span>*</span></label>
-                                <input 
-                                placeholder='Informe o titulo'
-                                value={titulo} 
-                                onChange={e => setTitulo(e.target.value)}
-                                />
-                                </li>
-                                <li>
-                                <label for="email">Descrição: <span>*</span></label>
-                                <textarea                                  
-                                placeholder='Informe a descrição'
-                                value={descricao} 
-                                onChange={e => setDescricao(e.target.value)}
-                                />
-                                </li>
-                                <li>
-                                <label for="funcao">Biblioteca: <span>*</span></label>
-                                <select  value={librarySelected} onChange={e =>handleLibrarySelected(e.target.value)}>
-                                {libraries.map(library=>(<option key={library.id} value={library.id}>{library.library_name}</option>))}
-                                </select>                            
-                                </li>
-                                <li>
-                                <label for="phone">Data de Aquisição: <span>*</span></label>
-                                <input 
-                                    type='date'                                     
-                                    value={dataAquisicao} 
-                                    onChange={e => setDataAquisicao(e.target.value)}
-                                />
-                                </li>  
-                                <li>
-                                <label for="name">Estado de Conservação: <span>*</span></label>
-                                <input 
-                                placeholder='Informe o estado de conservação'
-                                value={estadoConservacao} 
-                                onChange={e => setEstadoConservacao(e.target.value)}
-                                />
-                                </li>                             
-                                <li>
-                                 <button className='button' type='submit'>Salvar</button>
-                                 <button className='button cancel' type='button'>Cancelar</button>
-                                </li>
-                            </ul>
-                        </form>
+        <div>
+            <div className="container">
+                <div className="menulateral">
+                    <Menu></Menu>
+                </div>     
+                <div className="header"> 
+                </div>
+                <div className="title">
+                    <h2>Cadastro de Album</h2>
+                </div>
+                <div>
+                    <div className="dash-content">  
+                        <div className="dash"> 
+                            <h1>Dados do Album</h1>
+                            <form onSubmit={handleRegister}>
+                                <ul className="flex-outer">
+                                    <li>
+                                        <label for="name">Titulo: <span>*</span></label>
+                                        <input 
+                                        placeholder='Informe o titulo'
+                                        value={titulo} 
+                                        onChange={e => setTitulo(e.target.value)}/>
+                                    </li>
+
+                                    <li>
+                                        <label for="email">Descrição: <span>*</span></label>
+                                        <textarea                                  
+                                        placeholder='Informe a descrição'
+                                        value={descricao} 
+                                        onChange={e => setDescricao(e.target.value)}/>
+                                    </li>
+                                        
+                                    <li>
+                                        <label for="funcao">Biblioteca: <span>*</span></label>
+                                        <select  value={librarySelected} onChange={e =>handleLibrarySelected(e.target.value)}>
+                                            {libraries.map(library=>(<option key={library.id} value={library.id}>{library.library_name}</option>))}
+                                        </select>                            
+                                    </li>
+
+                                    <li>
+                                        <label for="phone">Data de Aquisição: <span>*</span></label>
+                                        <input 
+                                            type='date'                                     
+                                            value={dataAquisicao} 
+                                            onChange={e => setDataAquisicao(e.target.value)}/>
+                                    </li> 
+
+                                    <li>
+                                        <label for="name">Estado de Conservação: <span>*</span></label>
+                                        <input 
+                                        placeholder='Informe o estado de conservação'
+                                        value={estadoConservacao} 
+                                        onChange={e => setEstadoConservacao(e.target.value)}/>
+                                    </li>   
+                                </ul>
+                            </form>      
+                        </div>
+                        <div className="action">
+                            <button className='button' type='submit'>Salvar</button>
+                            <button className='button-cancel' type='button'>Cancelar</button>         
+                        </div>
                     </div>
+                </div>
             </div>
-        </div>
-        <Footer></Footer>
+            <Footer></Footer>
         </div>
     );
 }

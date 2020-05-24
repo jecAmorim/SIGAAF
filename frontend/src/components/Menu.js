@@ -18,8 +18,8 @@ export default function Footer({title,children}) {
         style={{background: '#12524B', padding:'5Px'}}
     >
         <div className="side-nav">
-            <div eventKey="icon">
-                <img className="navItem-logo" src={logoImg} alt="Logo Menu"/>
+            <div className="navItem-logo"   eventKey="icon">
+                <img  src={logoImg} alt="Logo Menu"/>
             </div>
             <div eventKey="user" className="navItem-perfile">
                 <FaUserCircle className="navItem-perfile icon" size={38} color='#fff'/>
@@ -29,38 +29,44 @@ export default function Footer({title,children}) {
             </div>        
             <div className="nav-body">
                 <SideNav.Nav>
-                    <NavItem eventKey="inicio">
+                    <NavItem eventKey="inicio" onClick={()=>{history.push('/dashboard')}}>
                         <NavIcon>
-                            <FiHome className="icon" size={40} color='#fff' margin="5px"/>
-                            <h2>{"Inicio"}</h2>
+                            <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
+                            <FiHome className="icon" size={40} color='#fff'/>
+                            <br></br>{"Inicio"}<br></br>
+                            </i>
                         </NavIcon>
                     </NavItem>
-
                     <NavItem 
+                    className="teste"
                     eventKey="album-fotografias"
                     onClick={() => {
                         history.push('/albums');
                     }}
                     >
                         <NavIcon>
-                            <FiBook  className="icon album"  size={40} color='#fff' margin="8px"/>
-                            <h2>{"Albúm"}<br></br>{"fotografias"}</h2>
+                            <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
+                            <FiBook  className="icon"  size={40} color='#fff'/>
+                            <br></br>{"Albúm"}<br></br>{"fotografias"}<br></br>
+                            </i>
                         </NavIcon>
-                        <NavItem eventKey="charts/linechart">
+                        <NavItem eventKey="album/cadastraralbum" onClick={() => {history.push('/registeralbum');}}>
                             <NavText>
-                                Line Chart
+                                Cadastrar Album
                             </NavText>
                         </NavItem>
-                        <NavItem eventKey="charts/linechart">
+                        <NavItem eventKey="album/buscaralbum"onClick={() => {history.push('/albums');}} >
                             <NavText>
-                                Line Chart
+                                Pesquisar Album
                             </NavText>
                         </NavItem>
                     </NavItem>
                     <NavItem eventKey="fotografias">
                         <NavIcon>
-                            <FiImage className="icon foto" size={40} color='#fff' margin="5px"/>
-                            <h2>{"Fotografias"}</h2>
+                            <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
+                            <FiImage className="icon" size={40} color='#fff'/>
+                            <br></br>{"Fotografias"}<br></br>
+                            </i>
                         </NavIcon>
                     </NavItem>
                     <NavItem eventKey="usuario"
@@ -69,34 +75,67 @@ export default function Footer({title,children}) {
                         }}
                     >
                         <NavIcon>
-                            <FiUser  className="icon" size={40} color='#fff' margin="5px"/>
-                            <h2>{"Usuarios"}</h2>
+                            <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
+                            <FiUser  className="icon" size={40} color='#fff'/>
+                            <br></br>{"Usuarios"}<br></br>
+                            </i>
                         </NavIcon>
+                        <NavItem eventKey="charts/linechart" onClick={() => {history.push('/registeruser');}}>
+                            <NavText>
+                                Cadastrar Album
+                            </NavText>
+                        </NavItem>
+                        <NavItem eventKey="charts/linechart"onClick={() => {history.push('/users');}} >
+                            <NavText >
+                                Pesquisar Album
+                            </NavText>
+                        </NavItem>
                     </NavItem>
                     <NavItem eventKey="Relatorios">
                     <NavIcon >
-                            <FiFileText className="icon" size={40} color='#fff' margin="5px"/>
-                            <h2>{"Relatorios"}</h2>
-                        </NavIcon>
+                            <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
+                            <FiFileText className="icon" size={40} color='#fff'/>
+                            <br></br>{"Relatorios"}<br></br>
+                            </i>
+                    </NavIcon>
+                        <NavItem eventKey="charts/linechart" onClick={() => {history.push('/Offices');}}>
+                            <NavText>
+                                Gerenciar Cargo
+                            </NavText>
+                        </NavItem>
                     </NavItem>
                     <NavItem eventKey="configuracoes">
                         <NavIcon>
+                            <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
                             <FiSettings className="icon" size={40} color='#fff'/>
-                            <h2>{"Configurações"}</h2>
+                            <br></br>{"Configurações"}<br></br>
+                            </i>
                         </NavIcon>
+                        <NavItem eventKey="charts/linechart" onClick={() => {history.push('/Offices');}}>
+                            <NavText>
+                                Gerenciar Cargo
+                            </NavText>
+                        </NavItem>
+                        <NavItem eventKey="charts/linechart"onClick={() => {history.push('/status');}} >
+                            <NavText >
+                                Gerenciar Status
+                            </NavText>
+                        </NavItem>
                     </NavItem>
                     <NavItem eventKey="sair">
-                        <NavIcon>
-                            <FiLogOut  className="icon" size={40} color='#fff'/>
-                            <h2>{"Sair"}</h2>
+                    <NavIcon>
+                        <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
+                        <FiLogOut  className="icon" size={40} color='#fff'/>
+                        <br></br>{"Sair"}<br></br>
+                        </i>
                     </NavIcon>
                     </NavItem>
-                    <NavItem  eventKey="help">
+                    <NavItem eventKey="help">
                         <NavIcon> 
-                            <div>
-                                <FiHelpCircle  className="icon" size={40} color='#fff'/>
-                                <h2>{"Ajuda"}</h2>
-                            </div>
+                            <i  className="fa fa-fw" style={{ fontSize: "1em" }}>
+                            <FiHelpCircle  className="icon" size={40} color='#fff'/>
+                            <br></br>{"Ajuda"}<br></br>
+                            </i>
                         </NavIcon>
                     </NavItem>
                 </SideNav.Nav>
