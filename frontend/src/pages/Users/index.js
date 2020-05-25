@@ -232,8 +232,6 @@ export default function Users(){
                                 </td>
                             </tr>
                         ))}
-                        <tr>
-                        </tr>
                     </tbody>
                 </table>
             </div>

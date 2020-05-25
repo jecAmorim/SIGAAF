@@ -37,6 +37,9 @@
 .search-text input{
     border: 1px solid #DDD;
 }
+.container .dash{
+    margin: -3px 12% 12% 12% !important;
+}
 #input-search{  
     margin-top: 5px;
     background-image: url(../../assets/zoom.png);
@@ -76,7 +79,8 @@
 table {
     border-collapse:separate;
     border-spacing: 0px;
-    border-top: 8px solid #12524b;
+    border-top: 15px solid #12524b;
+    
 }
 .column-heading {
     background-color: #12524B;
@@ -84,27 +88,32 @@ table {
     text-align: left;
     line-height: 14px;
 }
-
 .collumn-user{ 
-    padding-left: 10px;
-    width: auto; 
+    padding-left: 15px;
+    width: 30%; 
 }
-.collumn-email {
- width: 55%;
+.collum-email {
+    width: 30.9% !important;
 }
-.collumn-function, .collumn-status{
-    padding-left: 10px;
-    width: 15%;
+.collumn-function {
+    width: 14.5%;
+}
+    
+.collumn-status{
+    width: 14.5%;
 }
 .collumn-actions  { 
-    padding-left: 10px;
-    width: auto; 
+    width: 20%; 
 }
 tbody{
     padding: 10px;
 }
 
 tbody td{
-    padding-left: 20px;
+    padding-left: 5px !important;
+    text-align: left;
+}
+tbody td:first-child{
+    padding-left: 15px !important;
     text-align: left;
 }
