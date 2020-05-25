@@ -12,13 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       album_estado_conservacao: DataTypes.STRING,
-      LibraryId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Library',
-          key: 'id',
-        }
-      }
     });
+
+    Album.associate = models => {
+      Album.belongsTo(models.Library)
+    };
+    
     return Album;
   }

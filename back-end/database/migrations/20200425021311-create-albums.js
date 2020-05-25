@@ -31,6 +31,8 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      LibraryId:DataTypes.INTEGER
+      ,
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

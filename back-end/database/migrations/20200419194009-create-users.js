@@ -12,6 +12,7 @@ module.exports = {
       user_name: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true,
       },
       user_email: {
         allowNull: false,

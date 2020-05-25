@@ -82,12 +82,12 @@ export default function Footer({title,children}) {
                         </NavIcon>
                         <NavItem eventKey="charts/linechart" onClick={() => {history.push('/registeruser');}}>
                             <NavText>
-                                Cadastrar Album
+                                Cadastrar Usuarios
                             </NavText>
                         </NavItem>
                         <NavItem eventKey="charts/linechart"onClick={() => {history.push('/users');}} >
                             <NavText >
-                                Pesquisar Album
+                                Pesquisar Usuarios
                             </NavText>
                         </NavItem>
                     </NavItem>

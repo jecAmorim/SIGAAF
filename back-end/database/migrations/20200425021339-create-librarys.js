@@ -13,6 +13,7 @@ module.exports = {
       library_name: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique,
       },
       createdAt: {
         allowNull: false,

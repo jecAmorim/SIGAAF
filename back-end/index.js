@@ -38,21 +38,35 @@ app.use(bodyParser.json())
                user_password,
                office_id,
                status_id}=req.body; 
-               const office=Office.findOne({where:{id:office_id}});
-               const status=Status.findOne({where:{id:status_id}});
-               
-        const user = await User.create({
-          user_name: user_name,
-          user_email: user_email,
-          user_password: user_password
-        })
-        .catch(function(err){
-            res.status(400).send(`Erro: ${err}`)
+        
+        const office=Office.findOne({
+            where:{
+              id:office_id
+            }});
+        const status=Status.findOne({
+          where:{
+            id:status_id
+          }});
+          console.log(office);
+        if(office != undefined && status != undefined) {    
+          const user = await User.create({
+            user_name: user_name,
+            user_email: user_email,
+            user_password: user_password
+          })
+          .then(async function(value){
+            await value.setOffice(office_id);
+            await value.setStatus(status_id);
+            res.json(value);
+          })
+          .catch(function(err){
+              res.status(400).send(`Erro: ${err}`)
           });
+        }else{
+          res.status(400).send(`Erro. Cargo ou status nao existem`)
+        }
           //Para adicionar a chave estrangeira
-          await user.setOffice(office_id);
-          await user.setStatus(status_id);
-          res.json(user);
+         
     });//Criar usuario
 
     app.post('/logon', async (req, res) => {
@@ -367,7 +381,7 @@ app.use(bodyParser.json())
 });//Criar album
 
   app.get('/albums', async (req, res) => {
-    const albums = await Album.findAll()
+    const albums = await Album.findAll({include: [Library]})
     .catch(function(err){
       res.send(`Erro: ${err}`)
     });
